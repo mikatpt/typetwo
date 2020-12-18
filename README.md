@@ -1,30 +1,73 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center">
+  <h3 align="center">TypeTwo</h3>
+  <p align="center">
+    A typing app to help you get faster.
+  </p>
+</p>
 
+
+
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#Usage">Usage</a></li>
+      </ul>
+    </li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
+
+
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+Typing speed is a crucial bottleneck in productivity, especially if you work primarily on a computer. The goal of this app is to help you improve your typing speed by providing relevant metrics and attacking your weaknesses.
+
+<!-- GETTING STARTED -->
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+* npm
+* postgres
+
+### Usage
+
+Install dependencies, then run the development server:
 
 ```bash
+npm install
+
 npm run dev
 # or
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<!-- CONTRIBUTING -->
+## Contributing
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+This project is currently in very basic form.
+Any contributions you make to improve upon it will be **greatly appreciated**!
 
-## Learn More
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/yourFeature`)
+3. Commit your Changes (`git commit -m 'Added a feature!'`)
+4. Push to the Branch (`git push origin feature/yourFeature`)
+5. Open a Pull Request
 
-To learn more about Next.js, take a look at the following resources:
+<!-- CONTACT -->
+## Contact
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Michael Chen - mikatpt@gmail.com
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Project Link: [https://github.com/mikatpt/typetwo](https://github.com/mikatpt/typetwo)
