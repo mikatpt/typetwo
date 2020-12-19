@@ -24,6 +24,9 @@
         "react/react-in-jsx-scope":"off",
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"]}],
         "react/jsx-one-expression-per-line":"off",
-        "react/jsx-props-no-spreading":"off"
+        "react/jsx-props-no-spreading":"off",
+        "import/extensions":"off",
+        "no-plusplus":"off",
+        "react/no-array-index-key":"off"
     }
 }
