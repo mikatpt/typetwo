@@ -37,6 +37,7 @@ export const Timer = class {
 
 // Given list of words and an index, return the word of that index.
 export const getWord = (words, i) => {
+  if (words[i] === ' ') return ' ';
   let start = i;
   let end = i;
   while (words[start - 1] !== ' ' && start > 0) start--;
