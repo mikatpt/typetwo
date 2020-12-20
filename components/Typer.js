@@ -19,7 +19,7 @@ export default function Typer({ word }) {
   const [current, setCurrent] = useState(0);
   const [next, setNext] = useState(1);
   const [metrics, setMetrics] = useState([]);
-  const [errorList, setError] = useState({});
+  const [errors, setError] = useState({});
   const [space, setSpace] = useState(false);
   const Time = useRef(new Timer());
 
@@ -39,7 +39,7 @@ export default function Typer({ word }) {
 
     if (current === 0) Time.current.start('wpm');
 
-    if (pair && !errorList[current]) setMetrics((prev) => [...prev, [pair, Time.current.end('pair')]]);
+    if (pair && !errors[current]) setMetrics((prev) => [...prev, [pair, Time.current.end('pair')]]);
     Time.current.start('pair');
 
     if (key === words[current]) {
@@ -54,19 +54,19 @@ export default function Typer({ word }) {
         // EDIT THIS > send errorList, metrics to database, display on dash, then resets all.
         setMetrics((prev) => {
           const res = [...prev, ['wpm', wpm, words.length / 5, Time.current.end('wpm')]];
-          console.log(`Your errors: ${JSON.stringify(errorList)}
+          console.log(`Your errors: ${JSON.stringify(errors)}
   Your times: ${JSON.stringify(res)}`);
           return res;
         });
 
         reset();
       }
-    } else if (errorList[current]) {
+    } else if (errors[current]) {
       // If second consecutive key is correct after an error, allow user to continue.
       if (key === words[next]) {
         const conditions = (space && next === current + 3) || (!space && next === current + 2);
-        if (conditions) setCurrent(next + 1);
-        else if (space) setNext(next + 1);
+        if (conditions && next + 1 < words.length) setCurrent(next + 1);
+        else if (space && next + 1 < words.length) setNext(next + 1);
       } else setNext(-1); // ...otherwise, do not permit user to continue until correct key pressed.
     } else {
       // only track errors for the first mistake in a chain.
@@ -77,7 +77,7 @@ export default function Typer({ word }) {
         next: words[current] + words[next],
         word: getWord(words, current),
       };
-      setError({ ...errorList, [current]: err });
+      setError({ ...errors, [current]: err });
 
       if (key === words[next]) {
         if (key === ' ' || words[next + 1] === ' ') setSpace(true);
@@ -89,7 +89,7 @@ export default function Typer({ word }) {
   return (
     <main className={styles.main}>
       <div className={styles.textContainer}>
-        <CharacterList words={words} current={current} />
+        <CharacterList words={words} current={current} errors={errors} />
       </div>
     </main>
   );

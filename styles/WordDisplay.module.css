@@ -22,11 +22,16 @@
 
 .current {
   background-color: #09d3ac;
+  color: #000 !important;
 }
 
 .blink {
   color: #fff;
   background-color: #000;
+}
+
+.error {
+  color: #ff0000;
 }
 
 .space {
