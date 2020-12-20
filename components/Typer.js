@@ -51,9 +51,10 @@ export default function Typer({ word }) {
       if (n === words.length) {
         setWords(generateWords(200));
         const wpm = ((words.length / 5) * (60000.0 / Time.current.end('wpm'))).toFixed(2);
+        const acc = ((100 * (words.length - Object.keys(errors).length)) / words.length).toFixed(2);
         // EDIT THIS > send errorList, metrics to database, display on dash, then resets all.
         setMetrics((prev) => {
-          const res = [...prev, ['wpm', wpm, words.length / 5, Time.current.end('wpm')]];
+          const res = [...prev, ['wpm', wpm, acc, words.length / 5, Time.current.end('wpm')]];
           console.log(`Your errors: ${JSON.stringify(errors)}
   Your times: ${JSON.stringify(res)}`);
           return res;
@@ -61,6 +62,7 @@ export default function Typer({ word }) {
 
         reset();
       }
+      // Error handling
     } else if (errors[current]) {
       // If second consecutive key is correct after an error, allow user to continue.
       if (key === words[next]) {
@@ -73,7 +75,7 @@ export default function Typer({ word }) {
 
       const err = {
         current: words[current],
-        prev: pair,
+        prev: words[current - 1] + words[current],
         next: words[current] + words[next],
         word: getWord(words, current),
       };
