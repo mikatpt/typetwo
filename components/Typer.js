@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Timer, getWord, generateWords } from '../utils/Logic';
 import { useKeyPress, modifyEsc, modifyBack } from '../utils/KeyboardLogic';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Typer.module.css';
 
 import CharacterList from './CharacterList';
 
@@ -89,11 +89,9 @@ export default function Typer({ word }) {
   });
 
   return (
-    <main className={styles.main}>
-      <div className={styles.textContainer}>
-        <CharacterList words={words} current={current} errors={errors} />
-      </div>
-    </main>
+    <div className={styles.textContainer}>
+      <CharacterList words={words} current={current} errors={errors} />
+    </div>
   );
 }
 Typer.propTypes = { word: PropTypes.string.isRequired };

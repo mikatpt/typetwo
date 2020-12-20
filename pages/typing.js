@@ -1,14 +1,18 @@
 import PropTypes from 'prop-types';
 
 import { generateWords } from '../utils/Logic';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Typing.module.css';
 
 import Typer from '../components/Typer';
 
 export async function getServerSideProps() {
   return { props: { word: generateWords(200) } };
 }
-
+/*
+To do:
+  - Head section with metadata
+  - Add a <main> tag, perhaps?
+*/
 export default function TypeTwo({ word }) {
   return (
     <div className={styles.container}>

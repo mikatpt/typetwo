@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import styles from '../styles/WordDisplay.module.css';
+import styles from '../styles/Character.module.css';
 
 /*
 To do:

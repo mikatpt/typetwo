@@ -8,12 +8,12 @@ const Characters = ({ words, current, errors }) => {
   const chars = words.split('');
 
   return (
-    <div className={styles.character}>
+    <span className={styles.character}>
       {chars.map((char, i) => {
         const error = !!errors[`${i}`];
         return (<Character key={char + i} char={char} i={i} current={current} error={error} />);
       })}
-    </div>
+    </span>
   );
 };
 
