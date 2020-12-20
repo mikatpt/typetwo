@@ -6,15 +6,16 @@ import styles from '../styles/WordDisplay.module.css';
 To do:
   - More styling
   - Current should blink.
-  - Insert newlines every x characters at whitespace?
 */
 
 const Character = ({ char, i, current, error }) => {
   const past = i < current ? styles.past : '';
-  const style = i === current ? styles.current : past;
-  const final = error ? `${style} ${styles.error}` : style;
+  const curr = i === current ? styles.current : past;
+  const final = error ? `${curr} ${styles.error}` : curr;
+  const display = char === ' ' && error ? '_' : char;
+  const wordBreak = char === ' ' ? (<wbr />) : '';
 
-  return (<div className={final}>{char}</div>);
+  return (<span className={final}>{display}{wordBreak}</span>);
 };
 
 Character.propTypes = {

@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
-import Character from './Character';
 
 import styles from '../styles/WordDisplay.module.css';
+
+import Character from './Character';
 
 const Characters = ({ words, current, errors }) => {
   const chars = words.split('');
