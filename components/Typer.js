@@ -39,7 +39,7 @@ export default function Typer({ word }) {
 
     if (current === 0) Time.current.start('wpm');
 
-    if (pair && !errors[current]) setMetrics((prev) => [...prev, [pair, Time.current.end('pair')]]);
+    if (pair && !errors[current]) setMetrics([...metrics, [pair, Time.current.end('pair')]]);
     Time.current.start('pair');
 
     if (key === words[current]) {
