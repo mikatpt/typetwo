@@ -5,7 +5,6 @@ import styles from '../styles/Character.module.css';
 /*
 To do:
   - More styling
-  - Current should blink.
 */
 
 const Character = ({ char, i, current, error }) => {
