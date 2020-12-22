@@ -50,9 +50,13 @@ CREATE TABLE IF NOT EXISTS verification_requests (
 CREATE TABLE IF NOT EXISTS metrics (
   id            SERIAL,
   user_id       INTEGER NOT NULL,
-  totalWords    INTEGER NOT NULL,
-  totalTime     INTEGER NOT NULL,
-  fastestWPM    VARCHAR(255),
+  totalwords    REAL NOT NULL,
+  totaltime     INTEGER NOT NULL,
+  fastestwpm    REAL NOT NULL,
+  lastwpm       REAL NOT NULL,
+  lasterrors    INTEGER NOT NULL,
+  lastaccuracy  REAL NOT NULL,
+  fifths        INTEGER[],
   singles       jsonb,
   doubles       jsonb,
   PRIMARY KEY (id)
