@@ -10,24 +10,29 @@ import CharacterList from './CharacterList';
 /*
 Todo:
   - styling
-  - Send errorList to database after each round.
   - replace 200 with an env variable controlled by settings.
 */
-
-export default function Typer({ word }) {
+export default function Typer({ word, sendData }) {
   const [words, setWords] = useState(word);
   const [current, setCurrent] = useState(0);
-  const [next, setNext] = useState(1);
+  const [fifths, setFifths] = useState([]);
+  const [spaces, setSpaces] = useState(0);
   const [metrics, setMetrics] = useState([]);
+  const Time = useRef(new Timer());
+
+  // Error handling
+  const [next, setNext] = useState(1);
   const [errors, setError] = useState({});
   const [space, setSpace] = useState(false);
-  const Time = useRef(new Timer());
 
   const reset = () => {
     setCurrent(0);
+    setFifths([]);
+    setSpaces(0);
+    setMetrics([]);
     setNext(1);
     setError({});
-    setMetrics([]);
+    setSpace(false);
   };
 
   modifyEsc(() => reset());
@@ -35,14 +40,19 @@ export default function Typer({ word }) {
 
   // Listens for key presses and checks if correct, with graceful error handling.
   useKeyPress((key) => {
-    const pair = current > 0 && words[current] !== ' ' && words[current - 1] !== ' ' ? words[current - 1] + words[current] : null;
+    const pair = current > 0 ? words[current - 1] + words[current] : null;
 
-    if (current === 0) Time.current.start('wpm');
-
-    if (pair && !errors[current]) setMetrics([...metrics, [pair, Time.current.end('pair')]]);
-    Time.current.start('pair');
+    if (current === 0 && !errors[current]) Time.current.start('all');
 
     if (key === words[current]) {
+      if (pair) setMetrics([...metrics, [pair, Time.current.end('pair')]]);
+
+      if (key === ' ') {
+        if (spaces + 1 === 6) {
+          setSpaces(0);
+          setFifths([...fifths, Time.current.end('fifth')]);
+        } else setSpaces(spaces + 1);
+      }
       const n = current + 1;
       setCurrent(n);
       setNext(n + 1);
@@ -50,16 +60,9 @@ export default function Typer({ word }) {
 
       if (n === words.length) {
         setWords(generateWords(200));
-        const wpm = ((words.length / 5) * (60000.0 / Time.current.end('wpm'))).toFixed(2);
-        const acc = ((100 * (words.length - Object.keys(errors).length)) / words.length).toFixed(2);
-        // EDIT THIS > send errorList, metrics to database, display on dash, then resets all.
-        setMetrics((prev) => {
-          const res = [...prev, ['wpm', wpm, acc, words.length / 5, Time.current.end('wpm')]];
-          console.log(`Your errors: ${JSON.stringify(errors)}
-  Your times: ${JSON.stringify(res)}`);
-          return res;
-        });
-
+        const timeSpent = Time.current.end('wpm');
+        const lastFifths = [...fifths, Time.current.end('fifth')];
+        setMetrics((prev) => { sendData([words, timeSpent, errors, prev, lastFifths]); });
         reset();
       }
       // Error handling
@@ -67,12 +70,12 @@ export default function Typer({ word }) {
       // If second consecutive key is correct after an error, allow user to continue.
       if (key === words[next]) {
         const conditions = (space && next === current + 3) || (!space && next === current + 2);
-        if (conditions && next + 1 < words.length) setCurrent(next + 1);
-        else if (space && next + 1 < words.length) setNext(next + 1);
+        if (conditions && next + 1 < words.length) {
+          setMetrics([...metrics, [pair, Time.current.end('pair')]]);
+          setCurrent(next + 1);
+        } else if (space && next + 1 < words.length) setNext(next + 1);
       } else setNext(-1); // ...otherwise, do not permit user to continue until correct key pressed.
     } else {
-      // only track errors for the first mistake in a chain.
-
       const err = {
         current: words[current],
         prev: words[current - 1] + words[current],
@@ -94,4 +97,4 @@ export default function Typer({ word }) {
     </div>
   );
 }
-Typer.propTypes = { word: PropTypes.string.isRequired };
+Typer.propTypes = { word: PropTypes.string.isRequired, sendData: PropTypes.func.isRequired };
