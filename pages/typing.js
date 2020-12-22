@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { signIn, signOut, getSession } from 'next-auth/client';
-import axios from 'axios';
+import { getInfo, sendInfo } from '../utils/APILogic';
 
-import { generateWords } from '../utils/Logic';
+import { formatStats, generateWords } from '../utils/Logic';
 import styles from '../styles/Typing.module.css';
 
 import RoundMetrics from '../components/RoundMetrics';
@@ -23,26 +23,29 @@ To do:
 */
 
 export default function TypeTwo({ word, session }) {
-  const [metrics, setMetrics] = useState();
+  const [metrics, setMetrics] = useState({});
   const [stats, setStats] = useState([0, 0, 0]);
   useEffect(() => {
     if (session) {
-      axios.get(`http://localhost:3000/api/info/${session.user.email}`)
+      getInfo(session)
         .then((res) => {
-          console.log('data:', res);
-          setMetrics(res.data);
+          setMetrics(res.data[0]);
+          setStats(formatStats(res.data[0]));
         });
     }
   }, []);
 
-  // Send data to database.
+  // metrics: {id, user_id, totalWords, totalTime, fastestWPM,
+  //           lastWPM, lastErrors, lastAccuracy, singles, doubles}
   // data: [wordList, timeSpent, errors, digraphs, fifths]
+  // Send data to database.
   const sendData = (data) => {
-    const wpm = ((data[0].length / 5) * (60000.0 / data[1])).toFixed(2);
-    const errors = Object.keys(data[2]).length;
-    const acc = ((100 * (data[0].length - errors)) / data[0].length).toFixed(2);
-    console.log(data);
-    setStats([Number(wpm), errors, Number(acc)]);
+    setStats(formatStats(data));
+    if (session) {
+      sendInfo(session, [data, metrics])
+        .then(() => getInfo(session))
+        .then((res) => setMetrics(res.data));
+    }
   };
 
   return (
