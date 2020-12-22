@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { Timer, getWord, generateWords } from '../utils/Logic';
@@ -35,6 +35,16 @@ export default function Typer({ word, sendData }) {
     setSpace(false);
   };
 
+  useEffect(() => {
+    if (current === words.length) {
+      setWords(generateWords(200));
+      const timeSpent = Time.current.end('wpm');
+      const lastFifths = [...fifths, Time.current.end('fifth')];
+      sendData([words, timeSpent, errors, metrics, lastFifths]);
+      reset();
+    }
+  }, [current]);
+
   modifyEsc(() => reset());
   modifyBack(); // See logic file for backspace implementation
 
@@ -58,13 +68,6 @@ export default function Typer({ word, sendData }) {
       setNext(n + 1);
       setSpace(false);
 
-      if (n === words.length) {
-        setWords(generateWords(200));
-        const timeSpent = Time.current.end('wpm');
-        const lastFifths = [...fifths, Time.current.end('fifth')];
-        setMetrics((prev) => { sendData([words, timeSpent, errors, prev, lastFifths]); });
-        reset();
-      }
       // Error handling
     } else if (errors[current]) {
       // If second consecutive key is correct after an error, allow user to continue.
