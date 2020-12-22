@@ -17,7 +17,7 @@ export default function Typer({ word, sendData }) {
   const [current, setCurrent] = useState(0);
   const [fifths, setFifths] = useState([]);
   const [spaces, setSpaces] = useState(0);
-  const [metrics, setMetrics] = useState([]);
+  const [data, setData] = useState([]);
   const Time = useRef(new Timer());
 
   // Error handling
@@ -29,7 +29,7 @@ export default function Typer({ word, sendData }) {
     setCurrent(0);
     setFifths([]);
     setSpaces(0);
-    setMetrics([]);
+    setData([]);
     setNext(1);
     setError({});
     setSpace(false);
@@ -40,7 +40,7 @@ export default function Typer({ word, sendData }) {
       setWords(generateWords(200));
       const timeSpent = Time.current.end('wpm');
       const lastFifths = [...fifths, Time.current.end('fifth')];
-      sendData([words, timeSpent, errors, metrics, lastFifths]);
+      sendData([words, timeSpent, errors, data, lastFifths]);
       reset();
     }
   }, [current]);
@@ -55,7 +55,7 @@ export default function Typer({ word, sendData }) {
     if (current === 0 && !errors[current]) Time.current.start('all');
 
     if (key === words[current]) {
-      if (pair) setMetrics([...metrics, [pair, Time.current.end('pair')]]);
+      if (pair) setData([...data, [pair, Time.current.end('pair')]]);
 
       if (key === ' ') {
         if (spaces + 1 === 6) {
@@ -74,7 +74,7 @@ export default function Typer({ word, sendData }) {
       if (key === words[next]) {
         const conditions = (space && next === current + 3) || (!space && next === current + 2);
         if (conditions && next + 1 < words.length) {
-          setMetrics([...metrics, [pair, Time.current.end('pair')]]);
+          setData([...data, [pair, Time.current.end('pair')]]);
           setCurrent(next + 1);
         } else if (space && next + 1 < words.length) setNext(next + 1);
       } else setNext(-1); // ...otherwise, do not permit user to continue until correct key pressed.
