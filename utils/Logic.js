@@ -20,17 +20,27 @@ export const Timer = class {
   constructor() {
     this.startWPM = null;
     this.startPair = null;
+    this.startFifth = null;
   }
 
   // Track wpm of a full paragraph
   start(which) {
-    if (which === 'wpm') this.startWPM = new Date().getTime();
-    if (which === 'pair') this.startPair = new Date().getTime();
+    const time = new Date().getTime();
+    if (which === 'all') {
+      this.startWPM = time;
+      this.startPair = time;
+      this.startFifth = time;
+    }
+    if (which === 'wpm') this.startWPM = time;
+    if (which === 'pair') this.startPair = time;
+    if (which === 'fifth') this.startFifth = time;
   }
 
   end(which) {
     const end = new Date().getTime();
-    const start = which === 'wpm' ? this.startWPM : this.startPair;
+    const isFifth = which === 'fifth' ? this.startFifth : this.startPair;
+    const start = which === 'wpm' ? this.startWPM : isFifth;
+    this.start(which);
     return (end - start);
   }
 };
