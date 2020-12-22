@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import _ from 'lodash';
 
 import hundred from './wordLists/common100.json';
@@ -53,4 +54,73 @@ export const getWord = (words, i) => {
   while (words[start - 1] !== ' ' && start > 0) start--;
   while (words[end + 1] !== ' ' && end < words.length) end++;
   return words.substring(start, end + 1);
+};
+
+export const formatStats = (data) => {
+  if (Array.isArray(data)) {
+    const wpm = ((data[0].length / 5) * (60000.0 / data[1])).toFixed(2);
+    const errors = Object.keys(data[2]).length;
+    const acc = ((100 * (data[0].length - errors)) / data[0].length).toFixed(2);
+    return [Number(wpm), errors, Number(acc)];
+  }
+  const { lastwpm, lasterrors, lastaccuracy } = data;
+  return [lastwpm, lasterrors, lastaccuracy];
+};
+
+export const formatLetters = (data, errorList) => {
+  const singles = {};
+  const doubles = {};
+
+  const addToData = (dataSet, str, time, errors) => {
+    if (!dataSet[str]) dataSet[str] = { total: 1, errors, time };
+    else {
+      dataSet[str].total += 1;
+      dataSet[str].time += time;
+      dataSet[str].errors += errors;
+    }
+  };
+
+  Object.keys(errorList).forEach((i) => {
+    // {'ae': {current, prev, next, word}}
+    addToData(singles, errorList[i].current, 0, 1);
+    const prev = errorList[i].prev.replace(/\s/, '');
+    if (prev.length === 2) addToData(doubles, prev, 0, 1);
+  });
+
+  data.forEach((tuple) => {
+    const pair = tuple[0].replace(/\s/, '');
+    const time = tuple[1];
+    if (pair.length === 2) addToData(doubles, pair, time, 0);
+    pair.split('').forEach((char) => {
+      addToData(singles, char, time, 0);
+    });
+  });
+
+  return [singles, doubles];
+};
+
+export const updateData = (rows, newData) => {
+  const toSend = [...newData];
+  toSend[1] += rows.totalwords;
+  toSend[2] += rows.totaltime;
+  toSend[3] = Math.max(toSend[3], rows.fastestwpm);
+
+  const update = (toUpdate, newInfo) => {
+    Object.keys(newInfo).forEach((char) => {
+      if (!toUpdate[char]) toUpdate[char] = newInfo[char];
+      else {
+        toUpdate[char].time += newInfo[char].time;
+        toUpdate[char].total += newInfo[char].total;
+        toUpdate[char].errors += newInfo[char].errors;
+      }
+    });
+  };
+
+  const { singles, doubles } = rows;
+  update(singles, toSend[8]);
+  update(doubles, toSend[9]);
+
+  toSend[8] = singles;
+  toSend[9] = doubles;
+  return toSend;
 };
