@@ -4,7 +4,7 @@ import styles from '../styles/WordDisplay.module.css';
 
 import Character from './Character';
 
-const Characters = ({ words, current, errors }) => {
+export default function Characters({ words, current, errors }) {
   const chars = words.split('');
 
   return (
@@ -15,12 +15,10 @@ const Characters = ({ words, current, errors }) => {
       })}
     </span>
   );
-};
+}
 
 Characters.propTypes = {
   words: PropTypes.string.isRequired,
   current: PropTypes.number.isRequired,
   errors: PropTypes.objectOf(PropTypes.object).isRequired,
 };
-
-export default Characters;

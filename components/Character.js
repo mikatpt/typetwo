@@ -7,7 +7,7 @@ To do:
   - More styling
 */
 
-const Character = ({ char, i, current, error }) => {
+export default function Character({ char, i, current, error }) {
   const past = i < current ? styles.past : '';
   const curr = i === current ? styles.current : past;
   const final = error ? `${curr} ${styles.error}` : curr;
@@ -15,7 +15,7 @@ const Character = ({ char, i, current, error }) => {
   const wordBreak = char === ' ' ? (<wbr />) : '';
 
   return (<span className={final}>{display}{wordBreak}</span>);
-};
+}
 
 Character.propTypes = {
   char: PropTypes.string.isRequired,
@@ -23,5 +23,3 @@ Character.propTypes = {
   current: PropTypes.number.isRequired,
   error: PropTypes.bool.isRequired,
 };
-
-export default Character;
