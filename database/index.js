@@ -1,16 +1,16 @@
 import { Pool } from 'pg';
 
-// const config = {
-//   host: process.env.DBSERVER || 'localhost',
-//   user: 'student',
-//   password: 'student',
-//   port: 5432,
-//   database: 'amazonreviews',
-//   max: 20,
-//   idleTimeoutMillis: 30000,
-//   connectionTimeoutMillis: 2000,
-// };
-const pool = new Pool(process.env.DATABASE_URL);
+const config = {
+  host: 'localhost',
+  user: 'student',
+  password: 'student',
+  port: 5432,
+  database: 'typetwo',
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+};
+const pool = new Pool(config);
 
 pool.on('error', (err) => {
   console.error('Unexpected error on idle client', err);

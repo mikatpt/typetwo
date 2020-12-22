@@ -1,11 +1,12 @@
 import pool from './index';
 
 export const getInfo = async (email) => {
+  console.log(email);
   const query = `
   SELECT * FROM metrics
   LEFT JOIN users
   ON metrics.user_id = users.id
-  WHERE user.id = (SELECT id FROM users WHERE email = $1);`;
+  WHERE users.id = (SELECT id FROM users WHERE email = $1);`;
 
   let response;
   try {
