@@ -3,7 +3,7 @@ import { Pool } from 'pg';
 const config = {
   host: 'localhost',
   user: 'student',
-  password: 'student',
+  password: process.env.DB_PASS,
   port: 5432,
   database: 'typetwo',
   max: 20,

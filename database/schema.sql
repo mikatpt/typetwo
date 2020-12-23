@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS typetwo;
+
 \c typetwo;
 
 CREATE TABLE IF NOT EXISTS accounts (
@@ -88,3 +90,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS email
 
 CREATE UNIQUE INDEX IF NOT EXISTS token
   ON verification_requests(token);
+
+GRANT ALL PRIVILEGES ON DATABASE typetwo TO student;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO student;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO student;
