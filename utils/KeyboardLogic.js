@@ -47,6 +47,7 @@ export const modifyBack = (callback) => {
       if (callback) callback();
       e.preventDefault();
     }
+    if (e.keyCode === 32) e.preventDefault();
   }, []);
 
   useEffect(() => {
