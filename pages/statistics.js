@@ -6,11 +6,11 @@ export async function getServerSideProps({ req }) {
   return { props: { session } };
 }
 
-export default function About() {
+export default function Statistics() {
   return (
     <div>
-      <Head><title>About</title></Head>
-      <h1>About the project</h1>
+      <Head><title>Statistics</title></Head>
+      <h1>Statistics</h1>
     </div>
   );
 }
