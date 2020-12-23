@@ -58,13 +58,15 @@ export const getWord = (words, i) => {
 
 export const formatStats = (data) => {
   if (Array.isArray(data)) {
+    if (data.length < 3) return [0, 0, 0, 0];
     const wpm = ((data[0].length / 5) * (60000.0 / data[1])).toFixed(2);
     const errors = Object.keys(data[2]).length;
     const acc = ((100 * (data[0].length - errors)) / data[0].length).toFixed(2);
-    return [Number(wpm), errors, Number(acc)];
+    return [Number(wpm), errors, Number(acc), data[4], data[0]];
   }
+  if (!Object.keys(data).length) return [0, 0, 0, 0];
   const { lastwpm, lasterrors, lastaccuracy } = data;
-  return [lastwpm, lasterrors, lastaccuracy];
+  return [lastwpm, lasterrors, lastaccuracy, 0];
 };
 
 export const formatLetters = (data, errorList) => {
