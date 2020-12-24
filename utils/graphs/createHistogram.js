@@ -14,7 +14,7 @@ const createHistogram = (ref, fifths, words) => {
     .map((section, i) => {
       const chars = section.length / 5;
       const time = (chars * (60000.0 / fifths[i])).toFixed(2);
-      return { time: Number(time), text: section };
+      return { time, text: section };
     });
 
   // Create an svg canvas upon which to paint your chart.
@@ -82,9 +82,12 @@ const createHistogram = (ref, fifths, words) => {
 
   // Append labels to each bar in the graph.
   chart.selectAll()
-    .data(dataPoints).enter()
+    .append('g')
+    .attr('class', 'bar-label')
+    .data(dataPoints)
+    .enter()
     .append('text')
-    .attr('x', (d, i) => 25 + i * (width + 27))
+    .attr('x', (d, i) => 25 + i * (width + 28))
     .attr('y', (d) => yScale(d.time) - 6)
     .text((d) => d.time);
 };

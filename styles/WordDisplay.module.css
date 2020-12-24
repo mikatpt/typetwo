@@ -1,7 +1,6 @@
 .character {
-  position: relative;
+  padding: 5vh 0;
   width: 600px;
-  height: 30vh;
   color: #111;
   font-family: Arial, Century Gothic, Courier New;
   font-size: 21px;
