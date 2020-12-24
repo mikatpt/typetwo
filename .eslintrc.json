@@ -25,6 +25,7 @@
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"]}],
         "react/jsx-one-expression-per-line":"off",
         "react/jsx-props-no-spreading":"off",
+        "react/forbid-prop-types":"off",
         "react/no-array-index-key":"off",
         "object-curly-newline":"off",
         "no-plusplus":"off"
