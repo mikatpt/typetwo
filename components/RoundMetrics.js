@@ -1,17 +1,28 @@
 import PropTypes from 'prop-types';
 
-export default function RoundMetrics({ wpm, errors, acc }) {
+import styles from '../styles/RoundMetrics.module.css';
+
+export default function RoundMetrics({ stats, wordset, updateWords }) {
+  const change = (e) => updateWords(Number(e.target.value));
+
   return (
-    <div>
-      Words per minute: {wpm}
-      Errors: {errors}
-      Accuracy: {acc}%
+    <div className={styles.container}>
+      <p className={styles.stat}>Words per minute: {stats[0]}</p>
+      <p className={styles.stat}>Errors: {stats[1]}</p>
+      <p className={styles.stat}>Accuracy: {stats[2]}%</p>
+      <p className={styles.stat}>Word Set: </p>
+      <div className={styles.selContainer}>
+        <select id="wordSet" className={styles.select} value={wordset} onChange={change}>
+          <option value="0">200 Most Popular</option>
+          <option value="1">1000 Most Popular</option>
+        </select>
+      </div>
     </div>
   );
 }
 
 RoundMetrics.propTypes = {
-  wpm: PropTypes.number.isRequired,
-  errors: PropTypes.number.isRequired,
-  acc: PropTypes.number.isRequired,
+  stats: PropTypes.array.isRequired,
+  wordset: PropTypes.number.isRequired,
+  updateWords: PropTypes.func.isRequired,
 };
