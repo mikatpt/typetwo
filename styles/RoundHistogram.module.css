@@ -1,0 +1,17 @@
+.graph {
+  background-color: #153E62;
+}
+
+.title {
+  color: white;
+}
+
+.graph svg text {
+  fill: white;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size: 15px;
+}
+
+.graph rect {
+  fill: rgb(194, 114, 240);
+}
