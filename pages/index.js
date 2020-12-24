@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { getSession } from 'next-auth/client';
 
-import { getInfo, sendInfo } from '../utils/APILogic';
+import { getInfo, sendInfo, getSettings, sendSettings } from '../utils/APILogic';
 import { formatStats, generateWords } from '../utils/Logic';
 import styles from '../styles/Typing.module.css';
 
@@ -13,13 +13,15 @@ import RoundHistogram from '../components/RoundHistogram';
 
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
-  let initMetrics;
+  let initMetrics = {};
+  let settings = { wordset: 0 }; // Initial default settings.
   if (session) {
     const res = await getInfo(session);
-    initMetrics = res.data;
+    const res2 = await getSettings(session);
+    settings = res2.data.length ? res2.data[0] : settings;
+    initMetrics = res.data.length ? res.data[0] : initMetrics;
   }
-  initMetrics = initMetrics || [{}];
-  return { props: { word: generateWords(200), session, initMetrics } };
+  return { props: { word: generateWords(settings.wordset), session, initMetrics, settings } };
 }
 /*
 To do:
@@ -27,20 +29,29 @@ To do:
   - Maybe move metrics up to _app?
 */
 
-export default function TypeTwo({ word, session, initMetrics }) {
-  const [metrics, setMetrics] = useState(initMetrics[0]);
-  const [stats, setStats] = useState(formatStats(initMetrics[0]));
+export default function TypeTwo({ word, session, initMetrics, settings }) {
+  const [words, setWords] = useState(word);
+  const [prefs, setPrefs] = useState(settings);
+  const [metrics, setMetrics] = useState(initMetrics);
+  const [stats, setStats] = useState(formatStats(initMetrics));
+
+  const updateWords = (option) => {
+    setPrefs((prev) => ({ ...prev, wordset: option }));
+    setWords(generateWords(option));
+  };
 
   // metrics: {id, user_id, totalWords, totalTime, fastestWPM,
   //           lastWPM, lastErrors, lastAccuracy, singles, doubles}
   // data: [wordList, timeSpent, errors, digraphs, fifths]
-  // Send data to database.
+  // After each round, send data to database.
   const sendData = (data) => {
     setStats(formatStats(data));
+    setWords(generateWords(prefs.wordset));
     if (session) {
       sendInfo(session, [data, metrics])
         .then(() => getInfo(session))
         .then((res) => setMetrics(res.data[0]));
+      sendSettings(session, prefs);
     }
   };
 
@@ -51,8 +62,8 @@ export default function TypeTwo({ word, session, initMetrics }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <RoundMetrics wpm={stats[0]} errors={stats[1]} acc={stats[2]} />
-        <Typer word={word} sendData={sendData} />
+        <RoundMetrics stats={stats} wordset={prefs.wordset} updateWords={updateWords} />
+        <Typer words={words} sendData={sendData} />
         {stats[3] !== 0 && <RoundHistogram fifths={stats[3]} words={stats[4]} />}
       </main>
     </div>
@@ -61,13 +72,8 @@ export default function TypeTwo({ word, session, initMetrics }) {
 
 TypeTwo.propTypes = {
   word: PropTypes.string.isRequired,
-  initMetrics: PropTypes.arrayOf(PropTypes.object).isRequired,
-  session: PropTypes.shape({ expires: PropTypes.string,
-    user: PropTypes.shape({
-      name: PropTypes.string,
-      email: PropTypes.string,
-      image: PropTypes.string,
-    }) }),
+  initMetrics: PropTypes.object.isRequired,
+  settings: PropTypes.objectOf(PropTypes.number).isRequired,
+  session: PropTypes.object,
 };
-
 TypeTwo.defaultProps = { session: null };

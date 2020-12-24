@@ -1,24 +1,22 @@
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { Timer, getWord, generateWords } from '../utils/Logic';
+import { Timer, getWord } from '../utils/Logic';
 import { useKeyPress, modifyEsc, modifyBack } from '../utils/KeyboardLogic';
-import styles from '../styles/Typer.module.css';
 
 import CharacterList from './CharacterList';
 
 /*
 Todo:
-  - styling
-  - replace 200 with an env variable controlled by settings.
+  - perhaps pass prefs in if we need to control for other options?
 */
-export default function Typer({ word, sendData }) {
-  const [words, setWords] = useState(word);
+export default function Typer({ words, sendData }) {
   const [current, setCurrent] = useState(0);
   const [fifths, setFifths] = useState([]);
   const [spaces, setSpaces] = useState(0);
   const [data, setData] = useState([]);
   const Time = useRef(new Timer());
+  const len = useRef();
 
   // Error handling
   const [next, setNext] = useState(1);
@@ -33,15 +31,15 @@ export default function Typer({ word, sendData }) {
     setNext(1);
     setError({});
     setSpace(false);
+    len.current = Math.ceil(words.split(' ').length / 5);
   };
 
+  useEffect(() => { reset(); }, [words]);
   useEffect(() => {
     if (current === words.length) {
-      setWords(generateWords(200));
       const timeSpent = Time.current.end('wpm');
       const lastFifths = [...fifths, Time.current.end('fifth')];
       sendData([words, timeSpent, errors, data, lastFifths]);
-      reset();
     }
   }, [current]);
 
@@ -58,7 +56,7 @@ export default function Typer({ word, sendData }) {
       if (pair) setData([...data, [pair, Time.current.end('pair')]]);
 
       if (key === ' ') {
-        if (spaces + 1 === 6) {
+        if (spaces + 1 === len.current) {
           setSpaces(0);
           setFifths([...fifths, Time.current.end('fifth')]);
         } else setSpaces(spaces + 1);
@@ -94,10 +92,9 @@ export default function Typer({ word, sendData }) {
     }
   });
 
-  return (
-    <div className={styles.textContainer}>
-      <CharacterList words={words} current={current} errors={errors} />
-    </div>
-  );
+  return <CharacterList words={words} current={current} errors={errors} />;
 }
-Typer.propTypes = { word: PropTypes.string.isRequired, sendData: PropTypes.func.isRequired };
+Typer.propTypes = {
+  words: PropTypes.string.isRequired,
+  sendData: PropTypes.func.isRequired,
+};
