@@ -64,7 +64,16 @@ CREATE TABLE IF NOT EXISTS metrics (
   PRIMARY KEY (id)
 );
 
-CREATE INDEX IF NOT EXISTS metrics_user_id_idx
+CREATE TABLE IF NOT EXISTS settings (
+  id SERIAL,
+  user_id INTEGER NOT NULL,
+  wordset INTEGER NOT NULL
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS settings_user_id_idx
+  ON settings(user_id);
+
+CREATE UNIQUE INDEX IF NOT EXISTS metrics_user_id_idx
   ON metrics(user_id);
 
 CREATE UNIQUE INDEX IF NOT EXISTS compound_id

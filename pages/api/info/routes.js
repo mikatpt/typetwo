@@ -3,7 +3,7 @@ import { getInfo, insertInfo, updateInfo } from '../../../database/models';
 export const get = async (pid, res) => {
   let response;
   try {
-    response = await getInfo(pid);
+    response = await getInfo([pid]);
   } catch (e) {
     console.error(e);
     res.status(404).send('Something went wrong in GETting info!');
