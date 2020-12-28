@@ -4,6 +4,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: #f7e9bf;
 }
 
 a {
@@ -12,6 +13,8 @@ a {
 }
 
 #title {
+  position: absolute;
+  left: 5px;
   cursor: pointer;
   width: max-content;
 }
@@ -27,7 +30,7 @@ a {
 .footer {
   bottom: 0;
   width: 100%;
-  height: 100px;
+  height: 50px;
   border-top: 1px solid #eaeaea;
   display: flex;
   justify-content: center;

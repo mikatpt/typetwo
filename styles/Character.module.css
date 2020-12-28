@@ -1,6 +1,6 @@
 .error { color: #d00e0e !important; }
 
-.past { color: silver; }
+.past { color: #979494; }
 
 .current {
   background-color: #0d6e73;
@@ -10,7 +10,7 @@
 
 @keyframes blink {
   50% {
-    background-color: #fff;
+    background-color: #f7e9bf;
     color: #000;
   }
 }

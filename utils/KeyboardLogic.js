@@ -30,9 +30,10 @@ export const useKeyPress = (callback) => {
   return keyPressed;
 };
 
-export const modifyEsc = (callback) => {
+export const modifyEscEnter = (callback) => {
   const escFunction = useCallback((e) => {
-    if (e.keyCode === 27) { if (callback) callback(); }
+    if (e.keyCode === 27) callback('esc');
+    else if (e.keyCode === 13) callback('enter');
   }, []);
 
   useEffect(() => {

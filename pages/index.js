@@ -5,11 +5,12 @@ import { getSession } from 'next-auth/client';
 
 import { getInfo, sendInfo, getSettings, sendSettings } from '../utils/APILogic';
 import { formatStats, generateWords } from '../utils/Logic';
-import styles from '../styles/Typing.module.css';
+import styles from '../styles/Index.module.css';
 
 import RoundMetrics from '../components/RoundMetrics';
+import Instructions from '../components/Instructions';
 import Typer from '../components/Typer';
-import RoundHistogram from '../components/RoundHistogram';
+import RoundAnalysis from '../components/RoundAnalysis/Analysis';
 
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
@@ -35,6 +36,8 @@ export default function TypeTwo({ word, session, initMetrics, settings }) {
   const [metrics, setMetrics] = useState(initMetrics);
   const [stats, setStats] = useState(formatStats(initMetrics));
 
+  const getWords = () => setWords(generateWords(prefs.wordset));
+
   const updateWords = (option) => {
     setPrefs((prev) => ({ ...prev, wordset: option }));
     setWords(generateWords(option));
@@ -46,7 +49,6 @@ export default function TypeTwo({ word, session, initMetrics, settings }) {
   // After each round, send data to database.
   const sendData = (data) => {
     setStats(formatStats(data));
-    setWords(generateWords(prefs.wordset));
     if (session) {
       sendInfo(session, [data, metrics])
         .then(() => getInfo(session))
@@ -63,8 +65,9 @@ export default function TypeTwo({ word, session, initMetrics, settings }) {
       </Head>
       <main className={styles.main}>
         <RoundMetrics stats={stats} wordset={prefs.wordset} updateWords={updateWords} />
-        <Typer words={words} sendData={sendData} />
-        {stats[3] !== 0 && <RoundHistogram fifths={stats[3]} words={stats[4]} />}
+        <Instructions />
+        <Typer words={words} getWords={getWords} sendData={sendData} />
+        <RoundAnalysis stats={stats} />
       </main>
     </div>
   );

@@ -73,7 +73,7 @@ const createHistogram = (ref, fifths, words) => {
     .on('mouseenter', function a(e, d) {
       d3.select(this).attr('opacity', 0.5);
       tooltip.transition().duration(200).style('opacity', 0.9);
-      tooltip.html(`Words: ${d.text}`).style('left', 30).style('top', -30);
+      tooltip.html(d.text).style('left', 30).style('top', -30);
     })
     .on('mouseleave', function b() {
       d3.select(this).attr('opacity', 1);
