@@ -1,0 +1,34 @@
+.instructions {
+  display: flex;
+  width: 600px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.img {
+  width: 35px;
+  height: 35px;
+  margin-left: 5px;
+}
+
+.esc {
+  width: 40px;
+}
+
+.enter {
+  width: 40px;
+}
+
+.prev {
+  left: 0;
+  display: flex;
+  align-items: center;
+  -webkit-user-select: none;
+}
+
+.next {
+  right: 0;
+  display: flex;
+  align-items: center;
+  -webkit-user-select: none;
+}
