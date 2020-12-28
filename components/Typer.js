@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { Timer, getWord } from '../utils/Logic';
-import { useKeyPress, modifyEsc, modifyBack } from '../utils/KeyboardLogic';
+import { useKeyPress, modifyEscEnter, modifyBack } from '../utils/KeyboardLogic';
 
 import CharacterList from './CharacterList';
 
@@ -10,7 +10,7 @@ import CharacterList from './CharacterList';
 Todo:
   - perhaps pass prefs in if we need to control for other options?
 */
-export default function Typer({ words, sendData }) {
+export default function Typer({ words, getWords, sendData }) {
   const [current, setCurrent] = useState(0);
   const [fifths, setFifths] = useState([]);
   const [spaces, setSpaces] = useState(0);
@@ -43,7 +43,7 @@ export default function Typer({ words, sendData }) {
     }
   }, [current]);
 
-  modifyEsc(() => reset());
+  modifyEscEnter((key) => (key === 'esc' ? reset() : getWords()));
   modifyBack(); // See logic file for backspace implementation
 
   // Listens for key presses and checks if correct, with graceful error handling.
@@ -96,5 +96,6 @@ export default function Typer({ words, sendData }) {
 }
 Typer.propTypes = {
   words: PropTypes.string.isRequired,
+  getWords: PropTypes.func.isRequired,
   sendData: PropTypes.func.isRequired,
 };
