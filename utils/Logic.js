@@ -96,6 +96,7 @@ export const formatLetters = (data, errorList) => {
       addToData(singles, char, time, 0);
     });
   });
+  if (singles[' ']) delete singles[' '];
 
   return [singles, doubles];
 };
