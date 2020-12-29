@@ -31,11 +31,15 @@ export default function Typer({ words, getWords, prefs, sendData }) {
   };
 
   useEffect(() => { reset(); }, [words]);
+
+  // Sends data, but times out if you're typing below 20wpm
   useEffect(() => {
     if (current === words.length) {
       const timeSpent = Time.current.end('wpm');
       const lastFifths = [...fifths, Time.current.end('fifth')];
-      sendData([words, timeSpent, errors, data, lastFifths]);
+      const timeout = 60000 / (20 / (words.length / 5));
+      if (timeSpent < timeout) sendData([words, timeSpent, errors, data, lastFifths]);
+      else reset();
     }
   }, [current]);
 
