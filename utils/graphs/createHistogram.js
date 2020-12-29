@@ -86,11 +86,7 @@ const createHistogram = (ref, fifths, words) => {
     .enter()
     .append('text')
     .attr('text-anchor', 'middle')
-    .attr('x', (d, i) => {
-      console.log(xScale(i + 1));
-      console.log(xScale.bandwidth());
-      return xScale(i + 1) + xScale.bandwidth() / 2;
-    })
+    .attr('x', (d, i) => xScale(i + 1) + xScale.bandwidth() / 2)
     .attr('y', (d) => yScale(d.time) - 6)
     .text((d) => d.time);
 };
