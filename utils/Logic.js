@@ -4,6 +4,7 @@ import _ from 'lodash';
 import twohundred from './wordLists/common200.json';
 import thousand from './wordLists/common1000.json';
 import tenthousand from './wordLists/common10000.json';
+import quotes from './wordLists/quotes.json';
 
 // Given a particular rarity, generate 30 words
 export const generateWords = (option) => {
@@ -11,6 +12,7 @@ export const generateWords = (option) => {
   if (option === 0) wordList = twohundred;
   if (option === 1) wordList = thousand;
   if (option === 2) wordList = tenthousand;
+  if (option === 3) return quotes[Math.floor(Math.random() * 5518)].quote;
 
   return _.shuffle(wordList).slice(0, 30).join(' ');
 };

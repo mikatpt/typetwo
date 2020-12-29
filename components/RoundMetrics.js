@@ -15,6 +15,8 @@ export default function RoundMetrics({ stats, wordset, updateWords }) {
         <select id="wordSet" className={styles.select} value={wordset} onChange={change}>
           <option value="0">200 Most Popular</option>
           <option value="1">1000 Most Popular</option>
+          <option value="2">10000 Most Popular</option>
+          <option value="3">Quotes</option>
         </select>
       </div>
     </div>
