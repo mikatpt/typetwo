@@ -15,6 +15,7 @@ export const generateWords = (option) => {
   return _.shuffle(wordList).slice(0, 30).join(' ');
 };
 
+// Timer for Typer module. Methods take string option for what to time.
 export const Timer = class {
   constructor() {
     this.startWPM = null;
@@ -22,7 +23,6 @@ export const Timer = class {
     this.startFifth = null;
   }
 
-  // Track wpm of a full paragraph
   start(which) {
     const time = new Date().getTime();
     if (which === 'all') {
@@ -54,6 +54,7 @@ export const getWord = (words, i) => {
   return words.substring(start, end + 1);
 };
 
+// Formats stats for display, returns 0's for error handling.
 export const formatStats = (data) => {
   if (Array.isArray(data)) {
     if (data.length < 3) return [0, 0, 0, 0];
@@ -67,6 +68,7 @@ export const formatStats = (data) => {
   return [lastwpm, lasterrors, lastaccuracy, 0];
 };
 
+// Formats pair data and errors into charts to save to the db.
 export const formatLetters = (data, errorList) => {
   const singles = {};
   const doubles = {};
@@ -81,7 +83,6 @@ export const formatLetters = (data, errorList) => {
   };
 
   Object.keys(errorList).forEach((i) => {
-    // {'ae': {current, prev, next, word}}
     addToData(singles, errorList[i].current, 0, 1);
     const prev = errorList[i].prev.replace(/\s/, '');
     if (prev.length === 2) addToData(doubles, prev, 0, 1);
@@ -99,6 +100,7 @@ export const formatLetters = (data, errorList) => {
   return [singles, doubles];
 };
 
+// Updates db data with new data.
 export const updateData = (rows, newData) => {
   const toSend = [...newData];
   toSend[1] += rows.totalwords;
@@ -124,3 +126,13 @@ export const updateData = (rows, newData) => {
   toSend[9] = doubles;
   return toSend;
 };
+
+// For round stat display. Sorts ascending and re-renders whitespace.
+export const sortPairs = (pairs) => pairs.slice().sort((a, b) => {
+  if (a[1] > b[1]) return -1;
+  if (a[1] < b[1]) return 1;
+  return 0;
+}).map((pair) => {
+  if (pair[0][0] === ' ' || pair[0][1] === ' ') pair[0] = pair[0].replace(/\s/, '_');
+  return pair;
+});
