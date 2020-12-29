@@ -35,14 +35,16 @@ export default function TypeTwo({ word, session, initMetrics, settings }) {
   const [metrics, setMetrics] = useState(initMetrics);
   const [stats, setStats] = useState(formatStats(initMetrics));
 
-  const getWords = () => setWords(generateWords(prefs.wordset));
+  const getWords = (wordset = 0) => setWords(generateWords(wordset));
 
   const updateWords = (option) => {
-    setPrefs((prev) => ({ ...prev, wordset: option }));
+    const update = { ...prefs, wordset: option };
+    if (session) sendSettings(session, update);
+    setPrefs(update);
     setWords(generateWords(option));
   };
 
-  // metrics: {id, user_id, totalWords, totalTime, fastestWPM,
+  // metrics: {id, user_id, totalChars, totalTime, fastestWPM,
   //           lastWPM, lastErrors, lastAccuracy, singles, doubles}
   // data: [wordList, timeSpent, errors, digraphs, fifths]
   // After each round, send data to database.
@@ -52,7 +54,6 @@ export default function TypeTwo({ word, session, initMetrics, settings }) {
       sendInfo(session, [data, metrics])
         .then(() => getInfo(session))
         .then((res) => setMetrics(res.data[0]));
-      sendSettings(session, prefs);
     }
   };
 
@@ -65,7 +66,7 @@ export default function TypeTwo({ word, session, initMetrics, settings }) {
       <main className="main">
         <RoundMetrics stats={stats} wordset={prefs.wordset} updateWords={updateWords} />
         <Instructions />
-        <Typer words={words} getWords={getWords} sendData={sendData} />
+        <Typer words={words} getWords={getWords} prefs={prefs} sendData={sendData} />
         <RoundAnalysis stats={stats} />
       </main>
     </div>

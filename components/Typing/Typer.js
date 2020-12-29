@@ -6,11 +6,7 @@ import { useKeyPress, modifyEscEnter, modifyBack } from '../../utils/KeyboardLog
 
 import CharacterList from './CharacterList';
 
-/*
-Todo:
-  - perhaps pass prefs in if we need to control for other options?
-*/
-export default function Typer({ words, getWords, sendData }) {
+export default function Typer({ words, getWords, prefs, sendData }) {
   const [current, setCurrent] = useState(0);
   const [fifths, setFifths] = useState([]);
   const [spaces, setSpaces] = useState(0);
@@ -43,7 +39,7 @@ export default function Typer({ words, getWords, sendData }) {
     }
   }, [current]);
 
-  modifyEscEnter((key) => (key === 'esc' ? reset() : getWords()));
+  modifyEscEnter((key) => (key === 'esc' ? reset() : getWords(prefs.wordset)));
   modifyBack(); // See logic file for backspace implementation
 
   // Listens for key presses and checks if correct, with graceful error handling.
@@ -97,5 +93,6 @@ export default function Typer({ words, getWords, sendData }) {
 Typer.propTypes = {
   words: PropTypes.string.isRequired,
   getWords: PropTypes.func.isRequired,
+  prefs: PropTypes.object.isRequired,
   sendData: PropTypes.func.isRequired,
 };
