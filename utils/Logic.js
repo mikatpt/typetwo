@@ -12,7 +12,7 @@ export const generateWords = (option) => {
   if (option === 0) wordList = twohundred;
   if (option === 1) wordList = thousand;
   if (option === 2) wordList = tenthousand;
-  if (option === 3) return quotes[Math.floor(Math.random() * 5518)].quote;
+  if (option === 3) return quotes[Math.floor(Math.random() * 500)].content;
 
   return _.shuffle(wordList).slice(0, 30).join(' ');
 };
