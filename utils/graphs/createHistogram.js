@@ -10,7 +10,7 @@ const createHistogram = (ref, fifths, words) => {
 
   // Grab wpm and each section's list of words.
   const dataPoints = [0, l, 2 * l, 3 * l, 4 * l]
-    .map((i) => wordList.slice(i, i + 6).join(' '))
+    .map((i) => wordList.slice(i, i + l).join(' '))
     .map((section, i) => {
       const chars = section.length / 5;
       const time = (chars * (60000.0 / fifths[i])).toFixed(2);

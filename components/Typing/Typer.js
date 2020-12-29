@@ -12,7 +12,6 @@ export default function Typer({ words, getWords, prefs, sendData }) {
   const [spaces, setSpaces] = useState(0);
   const [data, setData] = useState([]);
   const Time = useRef(new Timer());
-  const len = useRef();
 
   // Error handling
   const [next, setNext] = useState(1);
@@ -27,7 +26,6 @@ export default function Typer({ words, getWords, prefs, sendData }) {
     setNext(1);
     setError({});
     setSpace(false);
-    len.current = Math.ceil(words.split(' ').length / 5);
   };
 
   useEffect(() => { reset(); }, [words]);
@@ -56,7 +54,7 @@ export default function Typer({ words, getWords, prefs, sendData }) {
       if (pair) setData([...data, [pair, Time.current.end('pair')]]);
 
       if (key === ' ') {
-        if (spaces + 1 === len.current) {
+        if (spaces + 1 === Math.ceil(words.split(' ').length / 5)) {
           setSpaces(0);
           setFifths([...fifths, Time.current.end('fifth')]);
         } else setSpaces(spaces + 1);
