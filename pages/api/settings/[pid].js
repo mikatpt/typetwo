@@ -22,6 +22,7 @@ export default async (req, res) => {
       console.error(e);
       res.status(404).send('Something went wrong in POSTing info!');
     }
+    res.setHeader('Content-Type', 'text/plain');
     res.status(200).send(response);
   }
 };

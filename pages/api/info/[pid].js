@@ -27,6 +27,7 @@ export default async (req, res) => {
       const toSend = updateData(req.body[1], params);
       response = await update(toSend, res);
     }
+    res.setHeader('Content-Type', 'text/plain');
     res.status(200).send(response);
   }
 };
