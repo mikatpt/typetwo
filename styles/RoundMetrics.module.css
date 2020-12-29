@@ -5,6 +5,8 @@
   border: solid black 1px;
   width: 700px;
   height: 50px;
+  background-color: rgb(242, 223, 146);
+  color: #050b64;
 }
 
 .stat {

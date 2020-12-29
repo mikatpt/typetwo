@@ -8,7 +8,7 @@ export async function getServerSideProps({ req }) {
 
 export default function Statistics() {
   return (
-    <div>
+    <div className="container">
       <Head><title>Statistics</title></Head>
       <h1>Statistics</h1>
     </div>

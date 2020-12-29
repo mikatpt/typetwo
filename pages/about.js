@@ -10,10 +10,10 @@ export async function getServerSideProps({ req }) {
 
 export default function About() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Head><title>About</title></Head>
       <h1>About the project</h1>
-      <main className={styles.main}>
+      <main style={{ 'white-space': 'pre' }}>
         <p>
           TypeTwo is a project built out of a composite of
           features that I wanted from a typing app.

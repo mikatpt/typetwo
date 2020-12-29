@@ -8,7 +8,7 @@ export async function getServerSideProps({ req }) {
 
 export default function Settings() {
   return (
-    <div>
+    <div className="container">
       <Head><title>Settings</title></Head>
       <h1>Settings</h1>
     </div>

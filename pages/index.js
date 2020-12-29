@@ -58,7 +58,7 @@ export default function TypeTwo({ word, session, initMetrics, settings }) {
   };
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Head>
         <title>TypeTwo</title>
         <link rel="icon" href="/favicon.ico" />
