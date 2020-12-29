@@ -2,7 +2,7 @@ import { useEffect, createRef } from 'react';
 import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';
 
-import createHistogram from '../../utils/graphs/createHistogram';
+import createHistogram from '../../utils/graphs/roundHistogram';
 import styles from '../../styles/RoundAnalysis/Histogram.module.css';
 
 export default function RoundHistogram({ fifths, words }) {
