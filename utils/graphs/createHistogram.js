@@ -60,15 +60,13 @@ const createHistogram = (ref, fifths, words) => {
     .attr('text-anchor', 'middle')
     .style('opacity', 0);
 
-  const width = 45;
-
   // Append bars to graph.
   chart.selectAll('rect')
     .data(dataPoints).enter()
     .append('rect')
-    .attr('x', (d, i) => 25 + i * (width + 27))
+    .attr('x', (d, i) => xScale(i + 1))
     .attr('y', (d) => yScale(d.time))
-    .attr('width', width)
+    .attr('width', xScale.bandwidth())
     .attr('height', (d) => Y - yScale(d.time))
     .on('mouseenter', function a(e, d) {
       d3.select(this).attr('opacity', 0.5);
@@ -87,7 +85,12 @@ const createHistogram = (ref, fifths, words) => {
     .data(dataPoints)
     .enter()
     .append('text')
-    .attr('x', (d, i) => 25 + i * (width + 28))
+    .attr('text-anchor', 'middle')
+    .attr('x', (d, i) => {
+      console.log(xScale(i + 1));
+      console.log(xScale.bandwidth());
+      return xScale(i + 1) + xScale.bandwidth() / 2;
+    })
     .attr('y', (d) => yScale(d.time) - 6)
     .text((d) => d.time);
 };
