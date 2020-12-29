@@ -33,7 +33,7 @@ const remove = async (query, params) => {
 
 export const getInfo = async (email) => {
   const query = `
-  SELECT m.totalwords, m.totaltime, m.fastestwpm, m.lastwpm, m.lasterrors,
+  SELECT m.totalchars, m.totaltime, m.fastestwpm, m.lastwpm, m.lasterrors,
   m.lastaccuracy, m.fifths, m.singles, m.doubles
   FROM metrics AS m
   LEFT JOIN users
@@ -45,7 +45,7 @@ export const getInfo = async (email) => {
 
 export const insertInfo = async (params) => {
   const query = `
-  INSERT INTO metrics(user_id, totalWords, totalTime, fastestWPM,
+  INSERT INTO metrics(user_id, totalchars, totalTime, fastestWPM,
     lastWPM, lastErrors, lastAccuracy, fifths, singles, doubles)
   VALUES ((SELECT id FROM users WHERE email = $1), $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
 
@@ -55,7 +55,7 @@ export const insertInfo = async (params) => {
 export const updateInfo = async (params) => {
   const query = `
   UPDATE metrics
-  SET totalWords = $2, totalTime = $3, fastestWPM = $4,
+  SET totalchars = $2, totalTime = $3, fastestWPM = $4,
   lastWPM = $5, lastErrors = $6, lastAccuracy = $7,
   fifths = $8, singles = $9, doubles = $10
   WHERE user_id = (SELECT id FROM users WHERE email = $1);`;

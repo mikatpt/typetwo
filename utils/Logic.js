@@ -103,7 +103,7 @@ export const formatLetters = (data, errorList) => {
 // Updates db data with new data.
 export const updateData = (rows, newData) => {
   const toSend = [...newData];
-  toSend[1] += rows.totalwords;
+  toSend[1] += rows.totalchars;
   toSend[2] += rows.totaltime;
   toSend[3] = Math.max(toSend[3], rows.fastestwpm);
 
@@ -128,7 +128,7 @@ export const updateData = (rows, newData) => {
 };
 
 // For round stat display. Sorts ascending and re-renders whitespace.
-export const sortPairs = (pairs) => pairs.slice().sort((a, b) => {
+export const sortPairs = (pairs) => _.cloneDeep(pairs).sort((a, b) => {
   if (a[1] > b[1]) return -1;
   if (a[1] < b[1]) return 1;
   return 0;
