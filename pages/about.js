@@ -1,8 +1,6 @@
 import Head from 'next/head';
 import { getSession } from 'next-auth/client';
 
-import styles from '../styles/About.module.css';
-
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
   return { props: { session } };

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { signIn, signOut, getSession } from 'next-auth/client';
 
-import styles from '../styles/Navigation.module.css';
+import styles from '../styles/components/Navigation.module.css';
 
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });

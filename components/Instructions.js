@@ -1,6 +1,6 @@
 import ReactTooltip from 'react-tooltip';
 
-import styles from '../styles/Instructions.module.css';
+import styles from '../styles/components/Instructions.module.css';
 
 // Perhaps add react tooltip to explain further?
 export default function Instructions() {

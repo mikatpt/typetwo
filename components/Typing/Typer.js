@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { Timer, getWord } from '../utils/Logic';
-import { useKeyPress, modifyEscEnter, modifyBack } from '../utils/KeyboardLogic';
+import { Timer, getWord } from '../../utils/Logic';
+import { useKeyPress, modifyEscEnter, modifyBack } from '../../utils/KeyboardLogic';
 
 import CharacterList from './CharacterList';
 

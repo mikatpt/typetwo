@@ -15,6 +15,14 @@ body {
   padding: 3rem 10rem 0;
 }
 
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 6vh;
+}
+
 a {
   color: rgb(5, 128, 101);
   font-weight: bold;

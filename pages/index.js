@@ -5,11 +5,10 @@ import { getSession } from 'next-auth/client';
 
 import { getInfo, sendInfo, getSettings, sendSettings } from '../utils/APILogic';
 import { formatStats, generateWords } from '../utils/Logic';
-import styles from '../styles/Index.module.css';
 
 import RoundMetrics from '../components/RoundMetrics';
 import Instructions from '../components/Instructions';
-import Typer from '../components/Typer';
+import Typer from '../components/Typing/Typer';
 import RoundAnalysis from '../components/RoundAnalysis/Analysis';
 
 export async function getServerSideProps({ req }) {
@@ -63,7 +62,7 @@ export default function TypeTwo({ word, session, initMetrics, settings }) {
         <title>TypeTwo</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
+      <main className="main">
         <RoundMetrics stats={stats} wordset={prefs.wordset} updateWords={updateWords} />
         <Instructions />
         <Typer words={words} getWords={getWords} sendData={sendData} />

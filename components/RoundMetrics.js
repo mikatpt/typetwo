@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import styles from '../styles/RoundMetrics.module.css';
+import styles from '../styles/components/RoundMetrics.module.css';
 
 export default function RoundMetrics({ stats, wordset, updateWords }) {
   const change = (e) => updateWords(Number(e.target.value));
