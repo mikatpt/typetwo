@@ -139,3 +139,15 @@ export const sortPairs = (pairs) => _.cloneDeep(pairs).sort((a, b) => {
   if (pair[0][0] === ' ' || pair[0][1] === ' ') pair[0] = pair[0].replace(/\s/, '_');
   return pair;
 });
+
+export const msToMinutes = (ms) => {
+  let seconds = Math.floor((ms / 1000) % 60);
+  let minutes = Math.floor((ms / (1000 * 60)) % 60);
+  let hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+
+  hours = (hours < 10) ? `0${hours}` : hours;
+  minutes = (minutes < 10) ? `0${minutes}` : minutes;
+  seconds = (seconds < 10) ? `0${seconds}` : seconds;
+
+  return `${hours}:${minutes}:${seconds}`;
+};
