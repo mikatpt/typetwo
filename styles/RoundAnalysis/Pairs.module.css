@@ -1,0 +1,7 @@
+.pairs {
+  display: block;
+  max-height: 200px;
+  width: max-content;
+  overflow-y: scroll;
+  white-space: pre;
+}
