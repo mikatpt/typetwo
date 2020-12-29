@@ -1,19 +1,12 @@
 .container {
   min-height: 90vh;
-  padding: 0 0.5rem;
+  padding: 0 10rem;
 }
+
 .main {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding-top: 6vh;
-}
-
-.title {
-  top: 0;
-  left: 0;
-  margin: 0;
-  line-height: 1.15;
-  font-size: 4rem;
 }
