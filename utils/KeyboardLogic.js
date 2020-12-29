@@ -48,7 +48,7 @@ export const modifyBack = (callback) => {
       if (callback) callback();
       e.preventDefault();
     }
-    if (e.keyCode === 32) e.preventDefault();
+    if (e.keyCode === 32 || e.keyCode === 191 || e.keyCode === 222) e.preventDefault();
   }, []);
 
   useEffect(() => {
