@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { signIn, signOut, getSession } from 'next-auth/client';
 
-import styles from '../styles/components/Navigation.module.css';
+import s from '../styles/components/Navigation.module.css';
 
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
@@ -11,23 +11,22 @@ export async function getServerSideProps({ req }) {
 
 export default function Navigation({ session }) {
   return (
-    <div className={styles.navBar}>
-      {!session && <div className={styles.navItem} onClick={signIn} role="button" tabIndex={0} onKeyDown={signIn}><p className={styles.signIn}>Sign In</p></div> }
+    <div className={s.navBar}>
+      {!session && <div className={s.navItem} onClick={signIn} role="button" tabIndex={0} onKeyDown={signIn}><p className={s.signIn}>Sign In</p></div> }
       {session && (
-        <div className={styles.navItem} onClick={signOut} role="button" tabIndex={0} onKeyDown={signOut}><p className={styles.signOut}>Sign Out</p></div>
+        <div className={s.navItem} onClick={signOut} role="button" tabIndex={0} onKeyDown={signOut}><p className={s.signOut}>Sign Out</p></div>
       )}
       {session && (
-        <div className={styles.navItem} style={{ cursor: 'default' }}>
-          <img className={styles.img} src={session.user.image} alt="" />
-          <p className={styles.txt}>{session.user.name ? session.user.name : session.user.email}</p>
-        </div>
+        <Link href="/settings">
+          <div className={s.navItem}>
+            <img className={s.img} src={session.user.image} alt="" />
+            <p className={s.txt}>{session.user.name ? session.user.name : session.user.email}</p>
+          </div>
+        </Link>
       )}
-
-      <Link href="/"><div className={styles.navItem}>Start Typing!</div></Link>
-      <Link href="/about"><div className={styles.navItem}>About</div></Link>
-      <Link href="/statistics"><div className={styles.navItem}>Statistics</div></Link>
-      <Link href="/settings"><div className={styles.navItem}>Settings</div></Link>
-
+      <Link href="/"><div className={s.navItem}>Start Typing!</div></Link>
+      <Link href="/about"><div className={s.navItem}>About</div></Link>
+      <Link href="/statistics"><div className={s.navItem}>Statistics</div></Link>
     </div>
   );
 }

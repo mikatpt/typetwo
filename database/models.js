@@ -90,9 +90,16 @@ export const upsertSettings = async (params) => {
 };
 
 export const deleteSettings = async (params) => {
+  deleteInfo(params);
   const query = `
   DELETE FROM settings
-  WHERE user_id = (SELECT id FROM users WHERE email = $1)`;
+  WHERE user_id = (SELECT id FROM users WHERE email = $1);
+  DELETE FROM accounts
+  WHERE user_id = (SELECT id FROM users WHERE email = $1);
+  DELETE FROM sessions
+  WHERE user_id = (SELECT id FROM users WHERE email = $1);
+  DELETE FROM USERS
+  WHERE email = $1;`;
 
   return remove(query, params);
 };
