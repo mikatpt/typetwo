@@ -40,13 +40,14 @@ a {
 /* Charts */
 
 .svg-container {
-  display: inline-block;
+  /* display: inline-block; */
   position: relative;
-  width: 100%;
-  max-width: 800px;
-  min-width: 600px;
-  vertical-align: top;
-  overflow: hidden;
+  /* width: 100%; */
+  /* max-width: 800px;
+  min-width: 600px; */
+  /* vertical-align: top;
+  overflow: hidden; */
+  /* text-align: center; */
   -webkit-user-select: none;
 }
 

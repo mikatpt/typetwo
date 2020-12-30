@@ -18,17 +18,18 @@ export default function Pairs({ pairs }) {
 
       <table className={styles.pairs}>
         <tbody>
+          <tr><td>#</td><td className={styles.text}>pair</td><td>wpm</td></tr>
           {sorted.map((p, i) => (
             <tr key={i}>
               <td>{`${sorted.length - i}.`}</td>
               <td className={styles.text}>{p[0]}</td>
-              <td>{(60000 / (p[1] * 5)).toFixed(1)}wpm</td>
+              <td>{(60000 / (p[1] * 5)).toFixed(1)}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <ReactTooltip id="ttpPairs" uuid="ttpPairs" type="dark" place="top" effect="solid">Your speed for every letter pair you typed. Consider finding alternate fingerings for your slowest pairs!</ReactTooltip>
+      <ReactTooltip id="ttpPairs" uuid="ttpPairs" type="dark" place="top" effect="solid">Your speed for every letter pair you typed. Spaces are denoted by underscores.</ReactTooltip>
     </div>
   );
 }

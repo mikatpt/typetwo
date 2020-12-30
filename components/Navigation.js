@@ -25,8 +25,8 @@ export default function Navigation({ session }) {
         </Link>
       )}
       <Link href="/"><div className={s.navItem}>Start Typing!</div></Link>
-      <Link href="/about"><div className={s.navItem}>About</div></Link>
       <Link href="/statistics"><div className={s.navItem}>Statistics</div></Link>
+      <Link href="/about"><div className={s.navItem}>About</div></Link>
     </div>
   );
 }
