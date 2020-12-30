@@ -23,9 +23,9 @@ const createHistogram = (ref, fifths, words) => {
     .attr('width', 500)
     .attr('height', 350);
 
-  const margin = 60;
+  const margin = 70;
   const X = 500 - 2 * margin;
-  const Y = 350 - 2 * margin;
+  const Y = 360 - 2 * margin;
 
   // Create a chart and set its margins.
   const chart = canvas.append('g').attr('transform', `translate(${margin}, ${margin})`);
@@ -50,7 +50,7 @@ const createHistogram = (ref, fifths, words) => {
 
   canvas.append('text')
     .attr('x', (X / 2) + margin)
-    .attr('y', 30)
+    .attr('y', 25)
     .attr('text-anchor', 'middle')
     .text('Speed Over Time (wpm)');
 
@@ -58,7 +58,7 @@ const createHistogram = (ref, fifths, words) => {
   const tooltip = canvas.append('text')
     .attr('class', 'tooltip')
     .attr('x', (X / 2) + margin)
-    .attr('y', 50)
+    .attr('y', 45)
     .attr('text-anchor', 'middle')
     .style('opacity', 0);
 

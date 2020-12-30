@@ -44,6 +44,7 @@ a {
   position: relative;
   width: 100%;
   max-width: 800px;
+  min-width: 600px;
   vertical-align: top;
   overflow: hidden;
   -webkit-user-select: none;
