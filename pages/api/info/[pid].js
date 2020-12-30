@@ -1,4 +1,4 @@
-import { get, post, update } from './routes';
+import { get, post, update, del } from './routes';
 import { formatLetters, formatStats, updateData } from '../../../utils/Logic';
 
 export default async (req, res) => {
@@ -28,6 +28,11 @@ export default async (req, res) => {
       response = await update(toSend, res);
     }
     res.setHeader('Content-Type', 'text/plain');
+    res.status(200).send(response);
+  }
+  if (req.method === 'DELETE') {
+    res.setHeader('Content-Type', 'text/plain');
+    const response = del(pid, res);
     res.status(200).send(response);
   }
 };

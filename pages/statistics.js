@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 import { getSession } from 'next-auth/client';
 
-import { getInfo } from '../utils/APILogic';
+import { getInfo, deleteInfo } from '../utils/APILogic';
 
 import LifeTimeStats from '../components/Statistics/LifeTimeStats';
 import Lowercase from '../components/Statistics/Lowercase';
@@ -28,10 +29,15 @@ Graphs
   - Error rate
 */
 export default function Statistics({ session, metrics }) {
+  const [stats, setStats] = useState(metrics);
   const noSession = (<p>Please log in to track your lifetime statistics!</p>);
   const noData = (<p>No data logged. Start typing!</p>);
+  const removeInfo = async () => {
+    await deleteInfo(session);
+    setStats({});
+  };
 
-  if (!session || !Object.keys(metrics).length) {
+  if (!session || !Object.keys(stats).length) {
     return (
       <div className="container">
         <Head><title>Statistics</title></Head>
@@ -40,7 +46,7 @@ export default function Statistics({ session, metrics }) {
       </div>
     );
   }
-  const { totalchars, totaltime, fastestwpm, singles, doubles } = metrics;
+  const { totalchars, totaltime, fastestwpm, singles, doubles } = stats;
 
   return (
     <div className="container">
@@ -51,6 +57,7 @@ export default function Statistics({ session, metrics }) {
         <Lowercase singles={singles} />
         <Capitals singles={singles} />
         <Pairs pairs={doubles} />
+        <button type="button" onClick={removeInfo}>Reset all statistics</button>
       </main>
     </div>
   );
