@@ -56,11 +56,14 @@ export const getWord = (words, i) => {
   return words.substring(start, end + 1);
 };
 
+// Given # of characters typed and time taken, return wpm to 2 decimals.
+export const calculateWPM = (chars, time) => Number(((12000 * chars) / time).toFixed(2));
+
 // Formats stats for display, returns 0's for error handling.
 export const formatStats = (data) => {
   if (Array.isArray(data)) {
     if (data.length < 3) return [0, 0, 0, 0];
-    const wpm = ((data[0].length / 5) * (60000.0 / data[1])).toFixed(2);
+    const wpm = calculateWPM(data[0].length, data[1]);
     const errors = Object.keys(data[2]).length;
     const acc = ((100 * (data[0].length - errors)) / data[0].length).toFixed(2);
     return [Number(wpm), errors, Number(acc), data[4], data[0], data[3]];

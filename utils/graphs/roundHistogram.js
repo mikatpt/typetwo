@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { calculateWPM } from '../Logic';
 
 // Creates a histogram at the current reference.
 const createHistogram = (ref, fifths, words) => {
@@ -11,11 +12,7 @@ const createHistogram = (ref, fifths, words) => {
   // Grab wpm and each section's list of words.
   const data = [0, l, 2 * l, 3 * l, 4 * l]
     .map((i) => wordList.slice(i, i + l).join(' '))
-    .map((section, i) => {
-      const chars = section.length / 5;
-      const time = Number((chars * (60000.0 / fifths[i])).toFixed(2));
-      return { time, text: section };
-    });
+    .map((section, i) => ({ time: calculateWPM(section.length, fifths[i]), text: section }));
 
   // Create an svg canvas upon which to paint your chart.
   const canvas = d3.select(ref.current)

@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 
-import { msToMinutes } from '../../utils/Logic';
+import { calculateWPM, msToMinutes } from '../../utils/Logic';
 import styles from '../../styles/components/Statistics.module.css';
 
 export default function LifeTimeStats({ chars, time, fastest }) {
-  const lifetimewpm = ((chars / 5) * (60000 / time)).toFixed(2);
+  const lifetimewpm = calculateWPM(chars, time);
   const minutes = msToMinutes(time);
   const words = Math.floor(chars / 5);
   return (
