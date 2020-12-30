@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { calculateWPM } from '../Logic';
 
 const createHistogram = (ref, chars, capital = false) => {
   d3.select(ref.current).selectAll('*').remove();
@@ -7,17 +8,19 @@ const createHistogram = (ref, chars, capital = false) => {
 
   const data = str.split('')
     .map((char) => (chars[char]
-      ? ({ char, wpm: Number(((chars[char].total * 60000) / (chars[char].time * 5)).toFixed(2)) })
-      : { char, wpm: 0 }));
+      ? ({ char, wpm: calculateWPM(chars[char].total, chars[char].time), total: chars[char].total })
+      : { char, wpm: 0, total: 0 }));
 
   // Create canvas
-  const width = 700;
+  const width = 800;
   const height = 400;
 
   const canvas = d3.select(ref.current)
     .append('svg')
-    .attr('preserveAspectRatio', 'xMinYMin meet')
-    .attr('viewBox', `0 0 ${width} ${height}`)
+    .attr('width', width)
+    .attr('height', height)
+    // .attr('preserveAspectRatio', 'xMinYMin meet')
+    // .attr('viewBox', `0 0 ${width} ${height}`)
     .classed('svg-content-responsive', true);
 
   // Create chart
@@ -43,7 +46,7 @@ const createHistogram = (ref, chars, capital = false) => {
   const casing = capital ? 'Uppercase' : 'Lowercase';
   canvas.append('text')
     .attr('x', (x / 2) + margin)
-    .attr('y', 30)
+    .attr('y', 20)
     .attr('text-anchor', 'middle')
     .attr('font-weight', 'bold')
     .text(`Average Speed, ${casing} Letters`);
@@ -61,7 +64,7 @@ const createHistogram = (ref, chars, capital = false) => {
     .attr('height', (d) => y - yScale(d.wpm))
     .attr('fill', 'rgb(5, 65, 128)')
     .on('mouseenter', function a(e, d) {
-      tooltip.html(`${d.wpm}wpm`).transition().duration(200).style('opacity', 1);
+      tooltip.html(`${d.wpm}wpm<br/>Total: ${d.total}`).transition().duration(200).style('opacity', 1);
       d3.select(this).attr('opacity', 0.8);
     })
     .on('mousemove', (e, d) => {
