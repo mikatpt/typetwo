@@ -46,7 +46,7 @@ export default function Statistics({ session, metrics }) {
     <div className="container">
       <Head><title>Statistics</title></Head>
       <h1>Statistics</h1>
-      <main className="main">
+      <main className="main" style={{ 'padding-top': 0 }}>
         <LifeTimeStats chars={totalchars} time={totaltime} fastest={fastestwpm} />
         <Lowercase singles={singles} />
         <Capitals singles={singles} />

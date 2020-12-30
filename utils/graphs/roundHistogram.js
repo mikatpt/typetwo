@@ -9,11 +9,11 @@ const createHistogram = (ref, fifths, words) => {
   const l = Math.ceil(wordList.length / 5);
 
   // Grab wpm and each section's list of words.
-  const dataPoints = [0, l, 2 * l, 3 * l, 4 * l]
+  const data = [0, l, 2 * l, 3 * l, 4 * l]
     .map((i) => wordList.slice(i, i + l).join(' '))
     .map((section, i) => {
       const chars = section.length / 5;
-      const time = (chars * (60000.0 / fifths[i])).toFixed(2);
+      const time = Number((chars * (60000.0 / fifths[i])).toFixed(2));
       return { time, text: section };
     });
 
@@ -30,10 +30,12 @@ const createHistogram = (ref, fifths, words) => {
   // Create a chart and set its margins.
   const chart = canvas.append('g').attr('transform', `translate(${margin}, ${margin})`);
 
-  // Create your X and Y axis. Note the custom Y axis - 8 ticks of 30 each.
+  // Create X and Y axis
+
+  const max = d3.max(data, (d) => d.time);
   const xScale = d3.scaleBand().range([0, X]).domain([1, 2, 3, 4, 5].map((i) => i)).padding(0.3);
-  const yScale = d3.scaleLinear().range([Y, 0]).domain([0, 240]);
-  const yAxis = d3.axisLeft().scale(yScale).ticks(8).tickValues(d3.range(0, 270, 30));
+  const yScale = d3.scaleLinear().range([Y, 0]).domain([0, max]);
+  const yAxis = d3.axisLeft().scale(yScale).ticks(8).tickValues(d3.range(0, max + 1, max / 8));
 
   // Append initial X and Y axis' to your chart.
   chart.append('g').attr('transform', `translate(0, ${Y})`).call(d3.axisBottom(xScale));
@@ -62,7 +64,7 @@ const createHistogram = (ref, fifths, words) => {
 
   // Append bars to graph.
   chart.selectAll('rect')
-    .data(dataPoints).enter()
+    .data(data).enter()
     .append('rect')
     .attr('x', (d, i) => xScale(i + 1))
     .attr('y', (d) => yScale(d.time))
@@ -82,7 +84,7 @@ const createHistogram = (ref, fifths, words) => {
   chart.selectAll()
     .append('g')
     .attr('class', 'bar-label')
-    .data(dataPoints)
+    .data(data)
     .enter()
     .append('text')
     .attr('text-anchor', 'middle')
