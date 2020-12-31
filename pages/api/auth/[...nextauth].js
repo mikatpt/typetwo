@@ -13,6 +13,8 @@ const options = {
     }),
   ],
   database: process.env.DATABASE_URL,
+  session: { jwt: true },
+  jwt: { signingKey: process.env.JWT_SIGNING_PRIVATE_KEY },
 };
 
 export default (req, res) => NextAuth(req, res, options);
