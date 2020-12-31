@@ -1,13 +1,16 @@
 import * as d3 from 'd3';
 import { calculateWPM } from '../Logic';
 
-const createHistogram = (ref, chars) => {
+const createHistogram = (ref, chars, option) => {
   d3.select(ref.current).selectAll('*').remove();
+
+  const sorting = option === '1' ? ((a, b) => (a.total <= b.total ? 1 : -1))
+    : ((a, b) => (a.wpm <= b.wpm ? -1 : 1));
 
   const data = Object.keys(chars)
     .map((pair) => (
       { pair, total: chars[pair].total, wpm: calculateWPM(chars[pair].total, chars[pair].time) }))
-    .sort((a, b) => (a.wpm <= b.wpm ? -1 : 1));
+    .sort(sorting);
 
   // Canvas
   const width = 800;
@@ -50,7 +53,7 @@ const createHistogram = (ref, chars) => {
     .attr('y', 20)
     .attr('text-anchor', 'middle')
     .attr('font-weight', 'bold')
-    .text('Pair speed (Slow to Fast)');
+    .text('Pair speed');
 
   // Create tooltip
   const tooltip = d3.select(ref.current).append('div').attr('class', 'tooltip');
