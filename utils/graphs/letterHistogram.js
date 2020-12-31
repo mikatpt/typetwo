@@ -8,8 +8,12 @@ const createHistogram = (ref, chars, capital = false) => {
 
   const data = str.split('')
     .map((char) => (chars[char]
-      ? ({ char, wpm: calculateWPM(chars[char].total, chars[char].time), total: chars[char].total })
-      : { char, wpm: 0, total: 0 }));
+      ? ({
+        char,
+        wpm: calculateWPM(chars[char].total, chars[char].time),
+        total: chars[char].total,
+        errors: Number(((chars[char].errors * 100) / chars[char].total).toFixed(2)),
+      }) : { char, wpm: 0, total: 0, errors: 0 }));
 
   // Create canvas
   const width = 800;
@@ -69,7 +73,7 @@ const createHistogram = (ref, chars, capital = false) => {
       chart.selectAll('rect').attr('opacity', 1);
       d3.select(`#${uuid}_${current}`).attr('opacity', 0.8);
 
-      tooltip.html(`Letter: ${d.char}<br/>Speed: ${d.wpm}wpm<br/>Total: ${d.total}`)
+      tooltip.html(`Letter: ${d.char}<br/>Speed: ${d.wpm}wpm<br/>Total: ${d.total}<br/>Error Rate: ${d.errors}%`)
         .style('left', `${xScale(d.char)}px`)
         .style('top', `${yScale(d.wpm) - 20}px`)
         .style('opacity', 1);
