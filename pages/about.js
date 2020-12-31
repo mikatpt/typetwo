@@ -11,7 +11,7 @@ export default function About() {
     <div className="container">
       <Head><title>About</title></Head>
       <h1>About the project</h1>
-      <main style={{ 'white-space': 'pre' }}>
+      <main style={{ whiteSpace: 'pre' }}>
         <p>
           TypeTwo is a project built out of a composite of
           features that I wanted from a typing app.

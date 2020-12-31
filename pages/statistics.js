@@ -52,12 +52,12 @@ export default function Statistics({ session, metrics }) {
     <div className="container">
       <Head><title>Statistics</title></Head>
       <h1>Statistics</h1>
-      <main className="main" style={{ 'padding-top': 0 }}>
+      <main className="main" style={{ paddingTop: 0 }}>
         <LifeTimeStats chars={totalchars} time={totaltime} fastest={fastestwpm} />
         <Lowercase singles={singles} />
         <Capitals singles={singles} />
         <Pairs pairs={doubles} />
-        <button type="button" className="delete" onClick={removeInfo} style={{ 'align-self': 'flex-end' }}>Reset all statistics</button>
+        <button type="button" className="delete" onClick={removeInfo} style={{ alignSelf: 'flex-end' }}>Reset all statistics</button>
       </main>
     </div>
   );

@@ -23,11 +23,6 @@ export async function getServerSideProps({ req }) {
   }
   return { props: { word: generateWords(settings.wordset), session, initMetrics, settings } };
 }
-/*
-To do:
-  - Stats component
-  - Maybe move metrics up to _app?
-*/
 
 export default function TypeTwo({ word, session, initMetrics, settings }) {
   const [words, setWords] = useState(word);
@@ -44,10 +39,6 @@ export default function TypeTwo({ word, session, initMetrics, settings }) {
     setWords(generateWords(option));
   };
 
-  // metrics: {id, user_id, totalChars, totalTime, fastestWPM,
-  //           lastWPM, lastErrors, lastAccuracy, singles, doubles}
-  // data: [wordList, timeSpent, errors, digraphs, fifths]
-  // After each round, send data to database.
   const sendData = (data) => {
     setStats(formatStats(data));
     if (session) {
