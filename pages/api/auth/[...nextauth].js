@@ -12,7 +12,7 @@ const options = {
       from: process.env.EMAIL_FROM,
     }),
   ],
-  database: process.env.DATABASE_URL,
+  database: process.env.DB_URL,
   session: { jwt: false },
   jwt: { signingKey: process.env.JWT_SIGNING_PRIVATE_KEY },
 };
