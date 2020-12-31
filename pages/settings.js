@@ -1,17 +1,12 @@
-import PropTypes from 'prop-types';
 import Head from 'next/head';
-import { getSession, signOut } from 'next-auth/client';
+import { useSession, signOut } from 'next-auth/client';
 
 import { deleteSettings } from '../utils/APILogic';
 
-export async function getServerSideProps({ req }) {
-  const session = await getSession({ req });
-  return { props: { session } };
-}
-
-export default function Settings({ session }) {
+export default function Settings() {
+  const [session] = useSession();
   const deleteAccount = async () => {
-    await deleteSettings(session);
+    if (session) await deleteSettings(session);
     signOut();
   };
   return (
@@ -26,4 +21,3 @@ export default function Settings({ session }) {
     </div>
   );
 }
-Settings.propTypes = { session: PropTypes.object.isRequired };

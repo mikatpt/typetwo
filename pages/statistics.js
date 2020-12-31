@@ -20,14 +20,8 @@ export async function getServerSideProps({ req }) {
   return { props: { session, metrics } };
 }
 
-/*
-To do:
-  - Maybe average wpm of last 10?
-Graphs
-  - Pairs
-  - Special characters, capitals
-  - Error rate
-*/
+// To do: Maybe average wpm of last 10?
+
 export default function Statistics({ session, metrics }) {
   const [stats, setStats] = useState(metrics);
   const noSession = (<p>Please log in to track your lifetime statistics!</p>);

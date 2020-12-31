@@ -1,15 +1,10 @@
-import PropTypes from 'prop-types';
 import Link from 'next/link';
-import { signIn, signOut, getSession } from 'next-auth/client';
+import { signIn, signOut, useSession } from 'next-auth/client';
 
 import s from '../styles/components/Navigation.module.css';
 
-export async function getServerSideProps({ req }) {
-  const session = await getSession({ req });
-  return { props: { session } };
-}
-
-export default function Navigation({ session }) {
+export default function Navigation() {
+  const [session] = useSession();
   return (
     <div className={s.navBar}>
       {!session && <div className={s.navItem} onClick={signIn} role="button" tabIndex={0} onKeyDown={signIn}><p className={s.signIn}>Sign In</p></div> }
@@ -30,13 +25,3 @@ export default function Navigation({ session }) {
     </div>
   );
 }
-
-Navigation.propTypes = {
-  session: PropTypes.shape({ expires: PropTypes.string,
-    user: PropTypes.shape({
-      name: PropTypes.string,
-      email: PropTypes.string,
-      image: PropTypes.string,
-    }) }),
-};
-Navigation.defaultProps = { session: null };
