@@ -12,7 +12,14 @@ const options = {
       from: process.env.EMAIL_FROM,
     }),
   ],
-  database: process.env.DB_URL,
+  database: {
+    type: 'postgres',
+    host: process.env.DB_URL || 'localhost',
+    port: 5432,
+    username: 'student',
+    password: process.env.DB_PASS,
+    database: 'typetwo',
+  },
   session: { jwt: false },
   jwt: { signingKey: process.env.JWT_SIGNING_PRIVATE_KEY },
 };
