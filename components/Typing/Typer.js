@@ -12,6 +12,7 @@ export default function Typer({ words, getWords, prefs, sendData }) {
   const [spaces, setSpaces] = useState(0);
   const [data, setData] = useState([]);
   const Time = useRef(new Timer());
+  const pref = useRef();
 
   // Error handling
   const [next, setNext] = useState(1);
@@ -28,6 +29,7 @@ export default function Typer({ words, getWords, prefs, sendData }) {
     setSpace(false);
   };
 
+  useEffect(() => { pref.current = prefs.wordset; }, [prefs]);
   useEffect(() => { reset(); }, [words]);
 
   // Sends data, but times out if you're typing below 20wpm
@@ -41,7 +43,7 @@ export default function Typer({ words, getWords, prefs, sendData }) {
     }
   }, [current]);
 
-  modifyEscEnter((key) => (key === 'esc' ? reset() : getWords(prefs.wordset)));
+  modifyEscEnter((key) => (key === 'esc' ? reset() : getWords(pref.current)));
   modifyBack(); // See logic file for backspace implementation
 
   // Listens for key presses and checks if correct, with graceful error handling.
