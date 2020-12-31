@@ -64,6 +64,7 @@ a {
   background-color: white;
   border: solid black 2px;
   font-size: 13px;
+  pointer-events: none;
 }
 
 * {
