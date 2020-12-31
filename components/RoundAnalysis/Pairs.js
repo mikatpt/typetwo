@@ -18,7 +18,7 @@ export default function Pairs({ pairs }) {
 
       <table className={styles.pairs}>
         <tbody>
-          <tr><td>#</td><td className={styles.text}>pair</td><td>wpm</td></tr>
+          <tr><td> #</td><td className={styles.text}>pair</td><td>wpm</td></tr>
           {sorted.map((p, i) => (
             <tr key={i}>
               <td>{`${sorted.length - i}.`}</td>
