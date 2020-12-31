@@ -18,7 +18,7 @@ export default function Settings({ session }) {
     <div className="container">
       <Head><title>Settings</title></Head>
       <h1>Settings</h1>
-      <button type="button" onClick={deleteAccount}>Delete Account</button>
+      <button type="button" className="delete" onClick={deleteAccount}>Delete Account</button>
       <p>This will delete ALL of your information from our database.<br />
         If you would instead like to reset your statistics,
         you may do so from the Statistics page.

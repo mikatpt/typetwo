@@ -57,7 +57,7 @@ export default function Statistics({ session, metrics }) {
         <Lowercase singles={singles} />
         <Capitals singles={singles} />
         <Pairs pairs={doubles} />
-        <button type="button" onClick={removeInfo}>Reset all statistics</button>
+        <button type="button" className="delete" onClick={removeInfo} style={{ 'align-self': 'flex-end' }}>Reset all statistics</button>
       </main>
     </div>
   );

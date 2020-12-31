@@ -69,7 +69,7 @@ const createHistogram = (ref, chars, capital = false) => {
       chart.selectAll('rect').attr('opacity', 1);
       d3.select(`#${uuid}_${current}`).attr('opacity', 0.8);
 
-      tooltip.html(`Char: ${d.char}<br/>Speed: ${d.wpm}wpm<br/>Total: ${d.total}`)
+      tooltip.html(`Letter: ${d.char}<br/>Speed: ${d.wpm}wpm<br/>Total: ${d.total}`)
         .style('left', `${xScale(d.char)}px`)
         .style('top', `${yScale(d.wpm) - 20}px`)
         .style('opacity', 1);
