@@ -13,7 +13,7 @@ const options = {
     }),
   ],
   database: process.env.DATABASE_URL,
-  session: { jwt: true },
+  session: { jwt: false },
   jwt: { signingKey: process.env.JWT_SIGNING_PRIVATE_KEY },
 };
 
