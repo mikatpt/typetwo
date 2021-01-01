@@ -66,6 +66,7 @@ a {
   border: solid black 2px;
   font-size: 13px;
   pointer-events: none;
+  z-index: 2;
 }
 
 /* Delete button */
