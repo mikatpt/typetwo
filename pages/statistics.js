@@ -6,8 +6,7 @@ import { getSession } from 'next-auth/client';
 import { getInfo, deleteInfo } from '../utils/APILogic';
 
 import LifeTimeStats from '../components/Statistics/LifeTimeStats';
-import Lowercase from '../components/Statistics/Lowercase';
-import Capitals from '../components/Statistics/Capitals';
+import Letters from '../components/Statistics/Letters';
 import Pairs from '../components/Statistics/Pairs';
 
 export async function getServerSideProps({ req }) {
@@ -48,8 +47,8 @@ export default function Statistics({ session, metrics }) {
       <h1>Statistics</h1>
       <main className="main" style={{ paddingTop: 0 }}>
         <LifeTimeStats chars={totalchars} time={totaltime} fastest={fastestwpm} />
-        <Lowercase singles={singles} />
-        <Capitals singles={singles} />
+        <Letters letterSet={singles} capital={false} />
+        <Letters letterSet={singles} capital />
         <Pairs pairs={doubles} />
         <button type="button" className="delete" onClick={removeInfo} style={{ alignSelf: 'flex-end' }}>Reset all statistics</button>
       </main>

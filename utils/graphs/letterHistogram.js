@@ -1,12 +1,12 @@
 import * as d3 from 'd3';
 import { calculateWPM } from '../Logic';
 
-const createHistogram = (ref, chars, capital = false) => {
+const createHistogram = (ref, chars, capital, option) => {
   d3.select(ref.current).selectAll('*').remove();
 
   const str = capital ? 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' : 'abcdefghijklmnopqrstuvwxyz';
 
-  const data = str.split('')
+  const alphabetical = str.split('')
     .map((char) => (chars[char]
       ? ({
         char,
@@ -14,6 +14,11 @@ const createHistogram = (ref, chars, capital = false) => {
         total: chars[char].total,
         errors: Number(((chars[char].errors * 100) / chars[char].total).toFixed(2)),
       }) : { char, wpm: 0, total: 0, errors: 0 }));
+
+  const sorting = option === '2' ? ((a, b) => (a.total <= b.total ? 1 : -1))
+    : ((a, b) => (a.wpm <= b.wpm ? -1 : 1));
+
+  const data = option === '0' ? alphabetical : alphabetical.sort(sorting);
 
   // Create canvas
   const width = 800;
