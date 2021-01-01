@@ -1,21 +1,17 @@
 /* eslint-disable react/prop-types */
-import Router from 'next/router';
 import Link from 'next/link';
 import { Provider } from 'next-auth/client';
-import { start, done } from 'nprogress';
 
 import 'nprogress/nprogress.css';
 import '../styles/globals.css';
 
+import ProgressBar from '../components/ProgressBar';
 import Navigation from '../components/Navigation';
-
-Router.events.on('routeChangeStart', () => start());
-Router.events.on('routeChangeComplete', () => done());
-Router.events.on('routeChangeError', () => done());
 
 export default function MyApp({ Component, pageProps }) {
   return (
     <Provider session={pageProps.session}>
+      <ProgressBar />
       <Link href="/"><h1 id="title">TypeTwo</h1></Link>
       <Navigation />
       <Component {...pageProps} />
