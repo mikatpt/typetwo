@@ -14,6 +14,4 @@ export default function RoundAnalysis({ stats }) {
     </div>
   );
 }
-RoundAnalysis.propTypes = {
-  stats: PropTypes.array.isRequired,
-};
+RoundAnalysis.propTypes = { stats: PropTypes.array.isRequired };

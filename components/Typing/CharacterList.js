@@ -13,6 +13,7 @@ export default function Characters({ words, current, errors }) {
         const error = !!errors[`${i}`];
         return (<Character key={char + i} char={char} i={i} current={current} error={error} />);
       })}
+      {!chars.length && (<span className={styles.loading}>Loading...</span>)}
     </span>
   );
 }
