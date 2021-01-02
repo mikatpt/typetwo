@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import Link from 'next/link';
 import { Provider } from 'next-auth/client';
+import { MetricsContextProvider } from '../components/context';
 
 import 'nprogress/nprogress.css';
 import '../styles/globals.css';
@@ -14,7 +15,9 @@ export default function MyApp({ Component, pageProps }) {
       <ProgressBar />
       <Link href="/"><h1 id="title">TypeTwo</h1></Link>
       <Navigation />
-      <Component {...pageProps} />
+      <MetricsContextProvider>
+        <Component {...pageProps} />
+      </MetricsContextProvider>
 
       <footer className="footer">
         <a

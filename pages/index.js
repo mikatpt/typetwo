@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { getSession } from 'next-auth/client';
 
+import { Metrics } from '../components/context';
 import { getInfo, sendInfo, getSettings, sendSettings } from '../utils/APILogic';
 import { formatStats, generateWords } from '../utils/Logic';
 
@@ -13,22 +14,27 @@ import RoundAnalysis from '../components/RoundAnalysis/Analysis';
 
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
-  let initMetrics = {};
-  let settings = { wordset: 0 }; // Initial default settings.
-  if (session) {
-    const res = await getInfo(session);
-    const res2 = await getSettings(session);
-    settings = res2.data.length ? res2.data[0] : settings;
-    initMetrics = res.data.length ? res.data[0] : initMetrics;
-  }
-  return { props: { word: generateWords(settings.wordset), session, initMetrics, settings } };
+  return { props: { session } };
 }
 
-export default function TypeTwo({ word, session, initMetrics, settings }) {
-  const [words, setWords] = useState(word);
-  const [prefs, setPrefs] = useState(settings);
-  const [metrics, setMetrics] = useState(initMetrics);
-  const [stats, setStats] = useState(formatStats(initMetrics));
+export default function TypeTwo({ session }) {
+  const [words, setWords] = useState('');
+  const [prefs, setPrefs] = useState({ wordset: 0 });
+  const { metrics, setMetrics } = useContext(Metrics);
+  const [stats, setStats] = useState(formatStats(metrics));
+
+  useEffect(() => {
+    if (session) {
+      getSettings(session).then((res) => {
+        if (res.data.length) {
+          setPrefs(res.data[0]);
+          setWords(generateWords(res.data[0].wordset));
+        }
+      });
+    } else setWords(generateWords(0));
+  }, []);
+
+  useEffect(() => { if (Object.keys(metrics).length) setStats(formatStats(metrics)); }, [metrics]);
 
   const getWords = (wordset = 0) => setWords(generateWords(wordset));
 
@@ -64,10 +70,5 @@ export default function TypeTwo({ word, session, initMetrics, settings }) {
   );
 }
 
-TypeTwo.propTypes = {
-  word: PropTypes.string.isRequired,
-  initMetrics: PropTypes.object.isRequired,
-  settings: PropTypes.objectOf(PropTypes.number).isRequired,
-  session: PropTypes.object,
-};
+TypeTwo.propTypes = { session: PropTypes.object };
 TypeTwo.defaultProps = { session: null };

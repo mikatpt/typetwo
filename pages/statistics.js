@@ -1,36 +1,33 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 import { getSession } from 'next-auth/client';
 
-import { getInfo, deleteInfo } from '../utils/APILogic';
+import { Metrics } from '../components/context';
+import { deleteInfo } from '../utils/APILogic';
 
 import LifeTimeStats from '../components/Statistics/LifeTimeStats';
 import Letters from '../components/Statistics/Letters';
 import Pairs from '../components/Statistics/Pairs';
 
 export async function getServerSideProps({ req }) {
-  let metrics = {};
   const session = await getSession({ req });
-  if (session) {
-    const res = await getInfo(session);
-    metrics = res.data.length ? res.data[0] : metrics;
-  }
-  return { props: { session, metrics } };
+  return { props: { session } };
 }
 
 // To do: Maybe average wpm of last 10?
 
-export default function Statistics({ session, metrics }) {
-  const [stats, setStats] = useState(metrics);
+export default function Statistics({ session }) {
+  const { metrics, setMetrics } = useContext(Metrics);
   const noSession = (<p>Please log in to track your lifetime statistics!</p>);
-  const noData = (<p>No data logged. Start typing!</p>);
+  const noData = (<p>No data logged!</p>);
+
   const removeInfo = async () => {
     await deleteInfo(session);
-    setStats({});
+    setMetrics({});
   };
 
-  if (!session || !Object.keys(stats).length) {
+  if (!session || !Object.keys(metrics).length) {
     return (
       <div className="container">
         <Head><title>Statistics</title></Head>
@@ -39,7 +36,7 @@ export default function Statistics({ session, metrics }) {
       </div>
     );
   }
-  const { totalchars, totaltime, fastestwpm, singles, doubles } = stats;
+  const { totalchars, totaltime, fastestwpm, singles, doubles } = metrics;
 
   return (
     <div className="container">
@@ -55,7 +52,4 @@ export default function Statistics({ session, metrics }) {
     </div>
   );
 }
-Statistics.propTypes = {
-  session: PropTypes.object.isRequired,
-  metrics: PropTypes.object.isRequired,
-};
+Statistics.propTypes = { session: PropTypes.object.isRequired };
