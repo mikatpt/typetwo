@@ -34,7 +34,9 @@ export default function TypeTwo({ session }) {
     } else setWords(generateWords(0));
   }, []);
 
-  useEffect(() => { if (Object.keys(metrics).length) setStats(formatStats(metrics)); }, [metrics]);
+  useEffect(() => {
+    if (Object.keys(metrics).length && !stats[3]) setStats(formatStats(metrics));
+  }, [metrics]);
 
   const getWords = (wordset = 0) => setWords(generateWords(wordset));
 
