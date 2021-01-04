@@ -1,0 +1,13 @@
+name: PreventSleep
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: curl
+        uses: wei/curl@v1.1.1
+        with:
+          args: https://typetwo.vercel.app
