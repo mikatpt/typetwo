@@ -1,5 +1,5 @@
 <p align="center">
-  <h3 align="center">TypeTwo</h3>
+  <h3 align="center"><a href="https://typetwo.vercel.app">TypeTwo</a></h3>
   <p align="center">
     A typing app to help you get faster.
   </p>
