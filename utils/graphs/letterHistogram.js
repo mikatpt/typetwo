@@ -52,13 +52,13 @@ const createHistogram = (ref, chars, capital, option) => {
   chart.append('g').call(yAxis);
 
   // Title the chart
-  const casing = capital ? 'Uppercase' : 'Lowercase';
+  const casing = capital ? 'UPPERCASE' : 'LOWERCASE';
   canvas.append('text')
     .attr('x', (x / 2) + margin)
     .attr('y', 20)
     .attr('text-anchor', 'middle')
     .attr('font-weight', 'bold')
-    .text(`Average Speed, ${casing} Letters`);
+    .text(`AVERAGE SPEED, ${casing} LETTERS`);
 
   // Define tooltip. Allow hovering over tooltip.
   const tooltip = d3.select(ref.current).append('div').attr('class', 'tooltip');
@@ -96,7 +96,7 @@ const createHistogram = (ref, chars, capital, option) => {
     .attr('y', (d) => yScale(d.wpm))
     .attr('width', xScale.bandwidth())
     .attr('height', (d) => y - yScale(d.wpm))
-    .attr('fill', 'rgb(5, 65, 128)')
+    .attr('fill', 'rgb(225, 109, 39)')
     .attr('id', (d, i) => `${uuid}_${i}`);
 };
 export default createHistogram;

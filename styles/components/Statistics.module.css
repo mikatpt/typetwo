@@ -21,11 +21,23 @@
 .gridItem {
   display: block;
   text-align: center;
-  border: solid #7d7676 1px;
   border-radius: 10px;
   margin: 25px;
+  background-color: #000;
+  color: white;
+}
+
+.gridItem p {
+  margin-bottom: 8px;
 }
 
 .gridItem h4 {
-  color: #4a4646;
+  color: #9b9b9b;
+  font-size: 32px;
+  margin: 0 0 20px;
+}
+
+.wpm {
+  font-size: 18px;
+  margin-left: 5px;
 }

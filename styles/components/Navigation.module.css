@@ -2,24 +2,31 @@
   position: absolute;
   z-index: 999;
   right: 0;
-  top: 13vh;
+  top: 16px;
   display: flex;
-  flex-direction: column;
-  border: solid rgb(214, 214, 214) 1px;
+  /* flex-direction: column; */
+  /* border-left: solid rgb(214, 214, 214) 1px; */
   border-bottom: none;
-  width: 150px;
+  width: max-content;
 }
 
 .txt {
   word-wrap: break-word;
+  text-align: center;
   margin: 10px 0;
 }
 
 .img {
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  margin-top: 10px;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.png {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
 }
 
 .signIn {
@@ -31,23 +38,28 @@
 }
 
 .navItem {
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   justify-content: center;
   align-items: center;
-  background-color: white;
+  width: max-content;
+  min-width: 80px;
+  min-height: 40px;
+  height: 50px;
+  padding: 0 15px;
 
-  -webkit-user-select: none;
-  cursor: pointer;
+  /* background-color: white; */
   color: rgb(5, 128, 101);
   font-size: 15px;
   font-weight: bold;
-  width: 100%;
-  min-height: 40px;
-  height: max-content;
-  border-bottom: solid rgb(214, 214, 214) 1px;
+
+  /* border-top: solid rgb(214, 214, 214) 1px;
+  border-right: solid rgb(214, 214, 214) 1px;
+  border-bottom: solid rgb(214, 214, 214) 1px; */
+  cursor: pointer;
+  -webkit-user-select: none;
+  text-align: center;
 }
 
 .navItem:hover {

@@ -7,10 +7,10 @@ export default function RoundMetrics({ stats, wordset, updateWords }) {
 
   return (
     <div className={styles.container}>
-      <p className={styles.stat}>Words per minute: {stats[0]}</p>
-      <p className={styles.stat}>Errors: {stats[1]}</p>
-      <p className={styles.stat}>Accuracy: {stats[2]}%</p>
-      <p className={styles.stat}>Word Set: </p>
+      <p className={styles.stat}><b>Words per minute:</b> {stats[0]}</p>
+      <p className={styles.stat}><b>Errors:</b> {stats[1]}</p>
+      <p className={styles.stat}><b>Accuracy:</b> {stats[2]}%</p>
+      <p className={styles.stat}><b>Word Set:</b> </p>
       <div className={styles.selContainer}>
         <select id="wordSet" className={styles.select} value={wordset} onChange={change}>
           <option value="0">200 Most Popular</option>

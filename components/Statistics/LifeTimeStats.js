@@ -9,12 +9,15 @@ export default function LifeTimeStats({ chars, time, fastest }) {
   const words = Math.floor(chars / 5);
   return (
     <div className={styles.stats}>
-      <h3 className={styles.title}>All Time Stats</h3>
       <div className={styles.grid}>
-        <div className={styles.gridItem}><p>Total words typed:</p><h4>{words}</h4></div>
-        <div className={styles.gridItem}><p>Time spent typing:</p><h4>{minutes}</h4></div>
-        <div className={styles.gridItem}><p>Average Speed:</p><h4>{lifetimewpm}wpm</h4></div>
-        <div className={styles.gridItem}><p>Top Speed:</p><h4>{fastest}wpm</h4></div>
+        <div className={styles.gridItem}><p>TOTAL WORDS TYPED</p><h4>{words}</h4></div>
+        <div className={styles.gridItem}><p>TIME SPENT TYPING</p><h4>{minutes}</h4></div>
+        <div className={styles.gridItem}>
+          <p>AVERAGE SPEED</p><h4>{lifetimewpm}<span className={styles.wpm}>wpm</span></h4>
+        </div>
+        <div className={styles.gridItem}>
+          <p>TOP SPEED</p><h4>{fastest}<span className={styles.wpm}>wpm</span></h4>
+        </div>
       </div>
     </div>
   );

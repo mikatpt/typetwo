@@ -16,8 +16,8 @@ export default function Letters({ letterSet, capital }) {
     <div style={{ position: 'relative' }}>
       <select className="select" value={option} onChange={change}>
         <option value="0">Sort Alphabetical</option>
-        <option value="1">Sort by speed</option>
-        <option value="2">Sort by frequency</option>
+        <option value="1">Sort by Speed</option>
+        <option value="2">Sort by Frequency</option>
       </select>
 
       <div ref={ref} className="svg-container" />

@@ -15,8 +15,8 @@ export default function Pairs({ pairs }) {
   return (
     <div style={{ position: 'relative' }}>
       <select className="select" value={option} onChange={change}>
-        <option value="0">Sort by speed</option>
-        <option value="1">Sort by frequency</option>
+        <option value="0">Sort by Speed</option>
+        <option value="1">Sort by Frequency</option>
       </select>
       <div ref={ref} className="svg-container" />
 
