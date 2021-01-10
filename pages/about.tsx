@@ -4,7 +4,7 @@ export default function About() {
   return (
     <div className="container">
       <Head><title>About</title></Head>
-      <h1>About the project</h1>
+      <h1 style={{ paddingTop: '35px' }}>ABOUT THE PROJECT</h1>
       <main style={{ whiteSpace: 'pre' }}>
         <p>
           TypeTwo is a project built out of a composite of
@@ -24,6 +24,7 @@ export default function About() {
           <li><p>Specific all-time statistics covering letters, pairs, average speeds, etc.</p></li>
         </ul>
         <p>This project was heavily inspired by <a href="https://www.keybr.com/">keybr</a> and <a href="https://play.typeracer.com/">typeracer</a>, which I encourage you to check out if you haven&#39;t already!</p>
+        <p>- Michael Chen</p>
       </main>
     </div>
   );

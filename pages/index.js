@@ -64,8 +64,8 @@ export default function TypeTwo({ session }) {
       </Head>
       <main className="main">
         <RoundMetrics stats={stats} wordset={prefs.wordset} updateWords={updateWords} />
-        <Instructions />
         <Typer words={words} getWords={getWords} prefs={prefs} sendData={sendData} />
+        <Instructions />
         <RoundAnalysis stats={stats} />
       </main>
     </div>

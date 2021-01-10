@@ -41,13 +41,13 @@ export default function Statistics({ session }) {
   return (
     <div className="container">
       <Head><title>Statistics</title></Head>
-      <h1>Statistics</h1>
+      <h1 style={{ paddingTop: '35px' }}>STATISTICS</h1>
       <main className="main" style={{ paddingTop: 0 }}>
         <LifeTimeStats chars={totalchars} time={totaltime} fastest={fastestwpm} />
         <Letters letterSet={singles} capital={false} />
         <Letters letterSet={singles} capital />
         <Pairs pairs={doubles} />
-        <button type="button" className="delete" onClick={removeInfo} style={{ alignSelf: 'flex-end' }}>Reset all statistics</button>
+        <button type="button" className="delete" onClick={removeInfo} style={{ margin: '30px 0' }}>RESET ALL STATISTICS</button>
       </main>
     </div>
   );

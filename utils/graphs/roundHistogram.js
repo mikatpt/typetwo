@@ -20,12 +20,13 @@ const createHistogram = (ref, fifths, words) => {
     .attr('width', 500)
     .attr('height', 350);
 
-  const margin = 70;
+  const margin = 50;
+  const marginY = 90;
   const X = 500 - 2 * margin;
-  const Y = 360 - 2 * margin;
+  const Y = 360 - 2 * marginY;
 
   // Create a chart and set its margins.
-  const chart = canvas.append('g').attr('transform', `translate(${margin}, ${margin})`);
+  const chart = canvas.append('g').attr('transform', `translate(${margin}, ${marginY})`);
 
   // Create X and Y axis
 
@@ -41,22 +42,24 @@ const createHistogram = (ref, fifths, words) => {
   // Append a Y axis label and a title.
   canvas.append('text')
     .attr('x', (X / 2) + margin)
-    .attr('y', 330)
+    .attr('y', 318)
     .attr('text-anchor', 'middle')
-    .text('Segments');
+    .text('SENTENCE SEGMENTS');
 
   canvas.append('text')
     .attr('x', (X / 2) + margin)
-    .attr('y', 25)
+    .attr('y', 35)
     .attr('text-anchor', 'middle')
-    .text('Speed Over Time (wpm)');
+    .classed('graphTitle', true)
+    .text('SPEED OVER TIME (WPM)');
 
   // Create a tooltip which hangs underneath the title.
   const tooltip = canvas.append('text')
     .attr('class', 'tooltip')
     .attr('x', (X / 2) + margin)
-    .attr('y', 45)
+    .attr('y', 55)
     .attr('text-anchor', 'middle')
+    .classed('graphText', true)
     .style('opacity', 0);
 
   // Append bars to graph.

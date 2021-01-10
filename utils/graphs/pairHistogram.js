@@ -53,7 +53,7 @@ const createHistogram = (ref, chars, option) => {
     .attr('y', 20)
     .attr('text-anchor', 'middle')
     .attr('font-weight', 'bold')
-    .text('Pair speed');
+    .text('PAIR SPEED');
 
   // Create tooltip
   const tooltip = d3.select(ref.current).append('div').attr('class', 'tooltip');
@@ -91,7 +91,7 @@ const createHistogram = (ref, chars, option) => {
     .attr('y', (d) => yScale(d.wpm))
     .attr('width', xScale.bandwidth())
     .attr('height', (d) => y - yScale(d.wpm))
-    .attr('fill', 'rgb(5, 65, 128)')
+    .attr('fill', '#78259b')
     .attr('id', (d, i) => `pair_${i}`);
 };
 export default createHistogram;

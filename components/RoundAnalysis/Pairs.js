@@ -13,7 +13,7 @@ export default function Pairs({ pairs }) {
 
   return (
     <div className={styles.container}>
-      <h4>Pair Metrics:</h4>
+      <h4 className={styles.title}>PAIR METRICS</h4>
       <span className={styles.help} data-tip data-for="ttpPairs">?</span>
 
       <table className={styles.pairs}>
