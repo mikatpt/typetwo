@@ -1,11 +1,12 @@
 .pairs {
   display: block;
   max-height: 280px;
-  width: max-content;
+  width: 160px;
   overflow-y: scroll;
   white-space: pre;
   background-color: #78259b;
   margin-top: -6px;
+
 }
 
 .container {
@@ -16,6 +17,8 @@
   color: white;
   padding: 0 2vw;
   border-right: solid black 4px;
+  background-color: black;
+  width: 210px;
 }
 
 .title {
@@ -43,5 +46,18 @@
 }
 
 .text {
-  padding: 0 12px;
+  position: relative;
+  left: 22px;
+}
+
+.row { position: relative; }
+
+.num {
+  position: relative;
+  left: 2px;
+}
+
+.speed {
+  position: relative;
+  left: 37px;
 }

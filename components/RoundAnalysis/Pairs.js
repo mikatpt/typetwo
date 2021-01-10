@@ -18,12 +18,16 @@ export default function Pairs({ pairs }) {
 
       <table className={styles.pairs}>
         <tbody>
-          <tr><td> #</td><td className={styles.text}>pair</td><td>wpm</td></tr>
+          <tr className={styles.row}>
+            <td className={styles.num}> #    </td>
+            <td className={styles.text}>pair</td>
+            <td className={styles.speed}>wpm</td>
+          </tr>
           {sorted.map((p, i) => (
-            <tr key={i}>
-              <td>{`${sorted.length - i}.`}</td>
+            <tr key={i} className={styles.row}>
+              <td className={styles.num}>{`${sorted.length - i}.`}</td>
               <td className={styles.text}>{p[0]}</td>
-              <td>{(60000 / (p[1] * 5)).toFixed(1)}</td>
+              <td className={styles.speed}>{(60000 / (p[1] * 5)).toFixed(1)}</td>
             </tr>
           ))}
         </tbody>
