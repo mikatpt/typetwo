@@ -76,7 +76,7 @@ export default function Typer({ words, getWords, prefs, sendData }) {
           setCurrent(next + 1);
         } else if (space && next + 1 < words.length) setNext(next + 1);
       } else setNext(-1); // ...otherwise, do not permit user to continue until correct key pressed.
-    } else {
+    } else if (current !== words.length) {
       const err = {
         current: words[current],
         prev: words[current - 1] + words[current],
