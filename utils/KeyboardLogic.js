@@ -2,32 +2,29 @@ import { useState, useEffect, useCallback } from 'react';
 
 // Updates current pressed key.
 export const useKeyPress = (callback) => {
-  const [keyPressed, setKeyPressed] = useState();
+  // const [keyPressed, setKeyPressed] = useState();
 
   // Sets current key pressed. Ignores repeated inputs from holding down a key.
   const downHandler = ({ key }) => {
-    if (keyPressed !== key && key.length === 1) {
-      setKeyPressed(key);
-      if (callback) callback(key);
-    }
+    if (key.length === 1 && callback) callback(key);
   };
 
   // Releases a key.
-  const upHandler = () => { setKeyPressed(null); };
+  // const upHandler = () => { setKeyPressed(null); };
 
   useEffect(() => {
     // Set HTML event listeners
     window.addEventListener('keydown', downHandler);
-    window.addEventListener('keyup', upHandler);
+    // window.addEventListener('keyup', upHandler);
 
     // Clean-up event listeners
     return () => {
       window.removeEventListener('keydown', downHandler);
-      window.removeEventListener('keyup', upHandler);
+      // window.removeEventListener('keyup', upHandler);
     };
   });
 
-  return keyPressed;
+  // return keyPressed;
 };
 
 export const modifyEscEnter = (callback) => {
