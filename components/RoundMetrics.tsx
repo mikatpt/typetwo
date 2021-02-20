@@ -1,9 +1,15 @@
-import PropTypes from 'prop-types';
+import { ChangeEvent } from 'react';
 
 import styles from '../styles/components/RoundMetrics.module.css';
 
-export default function RoundMetrics({ stats, wordset, updateWords }) {
-  const change = (e) => updateWords(Number(e.target.value));
+interface Props {
+  stats: Array<number | Array<[string, number]>>;
+  wordset: number;
+  updateWords: (option: number) => void;
+}
+
+export default function RoundMetrics({ stats, wordset, updateWords }: Props) {
+  const change = (e: ChangeEvent<HTMLSelectElement>) => updateWords(+e.target.value);
 
   return (
     <div className={styles.container}>
@@ -22,9 +28,3 @@ export default function RoundMetrics({ stats, wordset, updateWords }) {
     </div>
   );
 }
-
-RoundMetrics.propTypes = {
-  stats: PropTypes.array.isRequired,
-  wordset: PropTypes.number.isRequired,
-  updateWords: PropTypes.func.isRequired,
-};

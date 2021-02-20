@@ -1,9 +1,14 @@
-import PropTypes from 'prop-types';
-
 import { calculateWPM, msToMinutes } from '../../utils/Logic';
+
 import styles from '../../styles/components/Statistics.module.css';
 
-export default function LifeTimeStats({ chars, time, fastest }) {
+interface Props {
+  chars: number;
+  time: number;
+  fastest: number;
+}
+
+export default function LifeTimeStats({ chars = 0, time = 0, fastest = 0 }: Props) {
   const lifetimewpm = calculateWPM(chars, time);
   const minutes = msToMinutes(time);
   const words = Math.floor(chars / 5);
@@ -22,8 +27,3 @@ export default function LifeTimeStats({ chars, time, fastest }) {
     </div>
   );
 }
-LifeTimeStats.propTypes = {
-  chars: PropTypes.number.isRequired,
-  time: PropTypes.number.isRequired,
-  fastest: PropTypes.number.isRequired,
-};

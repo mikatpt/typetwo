@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';
 
 import { sortPairs } from '../../utils/Logic';
 import styles from '../../styles/RoundAnalysis/Pairs.module.css';
 
-export default function Pairs({ pairs }) {
-  const [sorted, setSorted] = useState([]);
+type Pair = Array<[string, number]>;
+
+export default function Pairs({ pairs }: { pairs: Pair }) {
+  const [sorted, setSorted] = useState<Pair>([]);
   useEffect(() => {
     setSorted(sortPairs(pairs));
   }, [pairs]);
@@ -37,4 +38,3 @@ export default function Pairs({ pairs }) {
     </div>
   );
 }
-Pairs.propTypes = { pairs: PropTypes.array.isRequired };

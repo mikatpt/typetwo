@@ -1,12 +1,12 @@
-import { useState, useEffect, createRef } from 'react';
-import PropTypes from 'prop-types';
+import { useState, useEffect, createRef, ChangeEvent } from 'react';
+import { CharacterStore } from '../context';
 
 import createHistogram from '../../utils/graphs/pairHistogram';
 
-export default function Pairs({ pairs }) {
+export default function Pairs({ pairs }: { pairs: CharacterStore }) {
   const [option, setOption] = useState('0');
-  const ref = createRef();
-  const change = (e) => setOption(e.target.value);
+  const ref = createRef<any>();
+  const change = (e: ChangeEvent<HTMLSelectElement>) => setOption(e.target.value);
 
   useEffect(() => {
     createHistogram(ref, pairs, option);
@@ -23,4 +23,3 @@ export default function Pairs({ pairs }) {
     </div>
   );
 }
-Pairs.propTypes = { pairs: PropTypes.object.isRequired };

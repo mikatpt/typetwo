@@ -6,13 +6,15 @@ const createHistogram = (ref, fifths, words) => {
   // Wipe previous graphs
   d3.select(ref.current).selectAll('*').remove();
 
+  while (fifths.length < 5) fifths.push(0);
+
   const wordList = words.split(' ');
   const l = Math.ceil(wordList.length / 5);
 
   // Grab wpm and each section's list of words.
   const data = [0, l, 2 * l, 3 * l, 4 * l]
     .map((i) => wordList.slice(i, i + l).join(' '))
-    .map((section, i) => ({ time: calculateWPM(section.length, fifths[i]), text: section }));
+    .map((section, i) => ({ time: calculateWPM(section.length, fifths[i]) || 'N/A', text: section }));
 
   // Create an svg canvas upon which to paint your chart.
   const canvas = d3.select(ref.current)

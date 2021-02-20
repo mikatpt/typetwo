@@ -94,6 +94,9 @@ export const calculateWPM: CalcWPM = (chars, time) => Number(((12000 * chars) / 
  * Given raw statistics, formats them for display. Returns 0's for error handling.
  * @param data
  */
+// return:
+// [wpm: number, errors: number, accuracy: number, fifths: number[] | 0,
+// words?: string, data?: Array<[string, number]>;]
 export const formatStats = (data: any) => {
   if (Array.isArray(data)) {
     if (data.length < 3) return [0, 0, 0, 0];
