@@ -1,12 +1,16 @@
 import { useEffect, createRef } from 'react';
-import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';
 
 import createHistogram from '../../utils/graphs/roundHistogram';
 import styles from '../../styles/RoundAnalysis/Histogram.module.css';
 
-export default function RoundHistogram({ fifths, words }) {
-  const ref = createRef();
+interface Props {
+  fifths: number[];
+  words: string;
+}
+
+export default function RoundHistogram({ fifths, words }: Props) {
+  const ref = createRef<any>();
 
   useEffect(() => {
     createHistogram(ref, fifths, words);
@@ -22,7 +26,3 @@ export default function RoundHistogram({ fifths, words }) {
     </div>
   );
 }
-RoundHistogram.propTypes = {
-  fifths: PropTypes.arrayOf(PropTypes.number).isRequired,
-  words: PropTypes.string.isRequired,
-};

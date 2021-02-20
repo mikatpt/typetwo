@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "pages/settings.js", "pages/about.js"  ],
+, "pages/settings.js", "pages/about.js", "components/Navigation.js"  ],
   "exclude": [
     "node_modules"
   ]

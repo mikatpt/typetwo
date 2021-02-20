@@ -1,12 +1,17 @@
-import { useState, useEffect, createRef } from 'react';
-import PropTypes from 'prop-types';
+import { useState, useEffect, createRef, ChangeEvent } from 'react';
+import { CharacterStore } from '../context';
 
 import createHistogram from '../../utils/graphs/letterHistogram';
 
-export default function Letters({ letterSet, capital }) {
+interface Props {
+  letterSet: CharacterStore;
+  capital: boolean;
+}
+
+export default function Letters({ letterSet, capital }: Props) {
   const [option, setOption] = useState('0');
-  const ref = createRef();
-  const change = (e) => setOption(e.target.value);
+  const ref = createRef<any>();
+  const change = (e: ChangeEvent<HTMLSelectElement>) => setOption(e.target.value);
 
   useEffect(() => {
     createHistogram(ref, letterSet, capital, option);
@@ -24,4 +29,3 @@ export default function Letters({ letterSet, capital }) {
     </div>
   );
 }
-Letters.propTypes = { letterSet: PropTypes.object.isRequired, capital: PropTypes.bool.isRequired };
