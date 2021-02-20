@@ -1,10 +1,16 @@
-import { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useState, useRef, useEffect, MutableRefObject } from 'react';
 
 import { Timer, getWord } from '../../utils/Logic';
 import { useKeyPress, modifyEscEnter, modifyBack } from '../../utils/KeyboardLogic';
 
 import CharacterList from './CharacterList';
+
+interface State {
+  fifths: number[];
+  data: Array<[string, number]>;
+  errors: { [char: string]: { [char: string]: string; } };
+  [key: string]: any;
+}
 
 const initialState = {
   current: 0,
@@ -14,12 +20,19 @@ const initialState = {
   next: 1,
   errors: {},
   space: false,
-};
+} as State;
 
-export default function Typer({ words, getWords, prefs, sendData }) {
+interface Props {
+  words: string;
+  getWords: (wordset: number) => void;
+  prefs: { wordset: number; };
+  sendData: (data: any[]) => void;
+}
+
+export default function Typer({ words, getWords, prefs, sendData }: Props) {
   const [state, setState] = useState(initialState);
   const Time = useRef(new Timer());
-  const pref = useRef();
+  const pref: MutableRefObject<number> = useRef(0);
 
   const reset = () => { setState(initialState); };
 
@@ -43,8 +56,7 @@ export default function Typer({ words, getWords, prefs, sendData }) {
   // Listens for key presses and checks if correct, with graceful error handling.
   useKeyPress((key) => {
     let { spaces, space, current, next, data, fifths, errors } = state;
-    let err;
-    const pair = current > 0 ? words[current - 1] + words[current] : null;
+    const pair = current > 0 ? words[current - 1] + words[current] : '';
 
     if (current === 0 && !errors[current]) Time.current.start('all');
 
@@ -72,7 +84,7 @@ export default function Typer({ words, getWords, prefs, sendData }) {
         } else if (space && next + 1 < words.length) next += 1;
       } else next = -1; // ...otherwise, do not permit user to continue until correct key pressed.
     } else if (current !== words.length) {
-      err = {
+      const err = {
         current: words[current],
         prev: words[current - 1] + words[current],
         next: words[current] + words[next],
@@ -84,19 +96,9 @@ export default function Typer({ words, getWords, prefs, sendData }) {
         if (key === ' ' || words[next + 1] === ' ') space = true;
         next += 1;
       }
-    }
-
-    // Only update state if one of the three conditionals was hit.
-    if (current !== state.current || err || next !== state.next) {
-      setState({ current, next, fifths, spaces, data, errors, space });
-    }
+    } else return;
+    setState({ current, next, fifths, spaces, data, errors, space });
   });
 
   return <CharacterList words={words} current={state.current} errors={state.errors} />;
 }
-Typer.propTypes = {
-  words: PropTypes.string.isRequired,
-  getWords: PropTypes.func.isRequired,
-  prefs: PropTypes.object.isRequired,
-  sendData: PropTypes.func.isRequired,
-};
