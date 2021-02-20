@@ -1,13 +1,13 @@
-import PropTypes from 'prop-types';
-
 import styles from '../../styles/Typing/Character.module.css';
 
-/*
-To do:
-  - More styling
-*/
+interface Props {
+  char: string;
+  i: number;
+  current: number;
+  error: boolean;
+}
 
-export default function Character({ char, i, current, error }) {
+export default function Character({ char, i, current, error }: Props) {
   const past = i < current ? styles.past : '';
   const curr = i === current ? styles.current : past;
   const final = error ? `${curr} ${styles.error}` : curr;
@@ -16,10 +16,3 @@ export default function Character({ char, i, current, error }) {
 
   return (<span className={final}>{display}{wordBreak}</span>);
 }
-
-Character.propTypes = {
-  char: PropTypes.string.isRequired,
-  i: PropTypes.number.isRequired,
-  current: PropTypes.number.isRequired,
-  error: PropTypes.bool.isRequired,
-};
