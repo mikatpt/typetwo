@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import { MutableRefObject } from 'react';
 import _ from 'lodash';
 
 import twohundred from './wordLists/common200.json';
@@ -204,4 +205,69 @@ export const msToMinutes = (ms: number) => {
   seconds = (seconds < 10) ? `0${seconds}` : seconds;
 
   return `${hours}:${minutes}:${seconds}`;
+};
+
+export interface State {
+  fifths: number[];
+  data: Array<[string, number]>;
+  errors: { [char: string]: { [char: string]: string; } };
+  [key: string]: any;
+}
+
+type TypingType = (
+  key: string | undefined,
+  state: State,
+  words: string,
+  Time: MutableRefObject<InstanceType<typeof Timer>>,
+  updateState: (nextState: State) => void
+) => void
+
+/**
+ * Checks if typed key matches current key. Saves speed and error metrics.
+ * After a mistake, allows user to progress if next two keys are correct.
+ */
+export const typingLogic: TypingType = (key, state, words, Time, updateState) => {
+  let { spaces, space, current, next, data, fifths, errors } = state;
+  const pair = current > 0 ? words[current - 1] + words[current] : '';
+
+  if (current === 0 && !errors[current]) Time.current.start('all');
+
+  if (key === words[current]) {
+    if (pair) data = [...data, [pair, Time.current.end('pair')]];
+
+    if (key === ' ') {
+      if (spaces + 1 === Math.ceil(words.split(' ').length / 5)) {
+        spaces = 0;
+        fifths = [...fifths, Time.current.end('fifth')];
+      } else spaces += 1;
+    }
+    current += 1;
+    next = current + 1;
+    space = false;
+
+    // Error handling
+  } else if (errors[current]) {
+    // If second consecutive key is correct after an error, allow user to continue.
+    if (key === words[next]) {
+      const conditions = (space && next === current + 3) || (!space && next === current + 2);
+      if (conditions && next + 1 < words.length) {
+        data = [...data, [pair, Time.current.end('pair')]];
+        current = next + 1;
+      } else if (space && next + 1 < words.length) next += 1;
+    } else next = -1; // ...otherwise, do not permit user to continue until correct key pressed.
+  } else if (current !== words.length) {
+    const err = {
+      current: words[current],
+      prev: words[current - 1] + words[current],
+      next: words[current] + words[next],
+      word: getWord(words, current),
+    };
+    errors = { ...errors, [current]: err };
+
+    if (key === words[next]) {
+      if (key === ' ' || words[next + 1] === ' ') space = true;
+      next += 1;
+    }
+  } else return;
+  updateState({ current, next, fifths, spaces, data, errors, space });
 };
