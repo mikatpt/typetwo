@@ -224,7 +224,8 @@ type TypingType = (
 
 /**
  * Checks if typed key matches current key. Saves speed and error metrics.
- * After a mistake, allows user to progress if next two keys are correct.
+ * If an error made matches the following character (i.e. user dropped a letter),
+ * allow the user to continue typing.
  */
 export const typingLogic: TypingType = (key, state, words, Time, updateState) => {
   let { spaces, space, current, next, data, fifths, errors } = state;
@@ -250,11 +251,15 @@ export const typingLogic: TypingType = (key, state, words, Time, updateState) =>
     // If second consecutive key is correct after an error, allow user to continue.
     if (key === words[next]) {
       const conditions = (space && next === current + 3) || (!space && next === current + 2);
-      if (conditions && next + 1 < words.length) {
-        data = [...data, [pair, Time.current.end('pair')]];
-        current = next + 1;
-      } else if (space && next + 1 < words.length) next += 1;
-    } else next = -1; // ...otherwise, do not permit user to continue until correct key pressed.
+
+      if (next + 1 < words.length) {
+        if (conditions) {
+          data = [...data, [pair, Time.current.end('pair')]];
+          current = next + 1;
+        } else if (space) next += 1;
+        else next += 1;
+      }
+    } else next = -Infinity; // otherwise, do not permit user to continue until correct key pressed.
   } else if (current !== words.length) {
     const err = {
       current: words[current],
