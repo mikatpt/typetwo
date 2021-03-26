@@ -2,7 +2,8 @@
     "env": {
         "browser": true,
         "es2020": true,
-        "node": true
+        "node": true,
+        "jest": true
     },
     "extends": [
         "plugin:react/recommended",
@@ -21,22 +22,48 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "no-console":"off",
-        "linebreak-style":"off",
-        "react/react-in-jsx-scope":"off",
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"]}],
-        "react/jsx-one-expression-per-line":"off",
-        "react/jsx-props-no-spreading":"off",
-        "react/forbid-prop-types":"off",
-        "react/no-array-index-key":"off",
-        "object-curly-newline":"off",
-        "no-plusplus":"off",
-        "import/extensions": ["error", "ignorePackages", {"js": "never", "jsx": "never", "ts": "never", "tsx": "never"}],
-        "no-unused-vars":"off"
+        "no-console": "off",
+        "linebreak-style": "off",
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".tsx"
+                ]
+            }
+        ],
+        "react/jsx-one-expression-per-line": "off",
+        "react/jsx-props-no-spreading": "off",
+        "react/forbid-prop-types": "off",
+        "react/no-array-index-key": "off",
+        "object-curly-newline": "off",
+        "no-plusplus": "off",
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "js": "never",
+                "jsx": "never",
+                "ts": "never",
+                "tsx": "never"
+            }
+        ],
+        "no-unused-vars": "off"
     },
     "settings": {
         "import/resolver": {
-            "node": {"extensions": [".js", ".jsx", ".ts", ".tsx"]}
+            "node": {
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
+            }
         }
-    }
+    },
+    "ignorePatterns": "jest*"
 }
