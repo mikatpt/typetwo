@@ -30,7 +30,11 @@ export const MetricsContextProvider = ({ children }: { children: ReactNode }) =>
 
   useEffect(() => {
     getSession().then((session) => {
-      if (session) getInfo(session).then((res) => res.data.length && setMetrics(res.data[0]));
+      if (session) {
+        getInfo(session).then((res) => (
+          Object.keys(res.data).length && setMetrics(res.data)
+        ));
+      }
     });
   }, []);
 

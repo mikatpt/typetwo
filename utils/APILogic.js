@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-export const getInfo = (session) => axios.get(`${process.env.NEXT_PUBLIC_URL}/api/info/${session.user.email}`);
+export const getInfo = (session) => axios.get(`${process.env.NEXT_PUBLIC_URL}/api/info`, {
+  params: {
+    email: session.user.email,
+    token: session.accessToken,
+  },
+});
 
 export const sendInfo = (session, data) => axios.post(`${process.env.NEXT_PUBLIC_URL}/api/info/${session.user.email}`, data);
 

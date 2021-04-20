@@ -52,7 +52,7 @@ export default function TypeTwo({ session }) {
     if (session) {
       sendInfo(session, [data, metrics])
         .then(() => getInfo(session))
-        .then((res) => setMetrics(res.data[0]));
+        .then((res) => setMetrics(res.data));
     }
   };
 
