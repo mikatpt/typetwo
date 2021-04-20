@@ -91,23 +91,26 @@ type CalcWPM = (chars: number, time: number) => number;
  */
 export const calculateWPM: CalcWPM = (chars, time) => Number(((12000 * chars) / time).toFixed(2));
 
+export interface Stats {
+  lastwpm: number;
+  lasterrors: number;
+  lastaccuracy: number;
+  totaltime: number;
+  errors: {[chars: string]: { [key: string]: string; }};
+  words?: string;
+  lastfifths: number[];
+  data?: Array<[string, number]>
+}
+
 /**
  * Given raw statistics, formats them for display. Returns 0's for error handling.
  * @param data
  */
-// return:
-// [wpm: number, errors: number, accuracy: number, fifths: number[] | 0,
-// words?: string, data?: Array<[string, number]>;]
-export const formatStats = (data: any) => {
-  if (Array.isArray(data)) {
-    if (data.length < 3) return [0, 0, 0, 0];
-    const wpm = calculateWPM(data[0].length, data[1]);
-    const errors = Object.keys(data[2]).length;
-    const acc = ((100 * (data[0].length - errors)) / data[0].length).toFixed(2);
-    return [wpm, errors, +acc, data[4], data[0], data[3]];
-  }
+export const formatStats = (data: Stats) => {
+  const { lastwpm, lasterrors, lastaccuracy, words, lastfifths } = data;
+
   if (!Object.keys(data).length) return [0, 0, 0, 0];
-  const { lastwpm, lasterrors, lastaccuracy } = data;
+  if (words) return [lastwpm, lasterrors, lastaccuracy, lastfifths, words, data.data];
   return [lastwpm, lasterrors, lastaccuracy, 0];
 };
 
