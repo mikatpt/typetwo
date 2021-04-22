@@ -21,7 +21,7 @@ export default function TypeTwo({ session }) {
   const [words, setWords] = useState('');
   const [prefs, setPrefs] = useState({ wordset: 0 });
   const { metrics, setMetrics } = useContext(Metrics);
-  const [stats, setStats] = useState(formatStats(metrics));
+  const [stats, setStats] = useState(formatStats(metrics)); // maybe the line 38 code covers this?
 
   useEffect(() => {
     if (session) {

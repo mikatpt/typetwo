@@ -16,7 +16,7 @@ const options = {
     type: 'postgres',
     host: process.env.DB_URL || 'localhost',
     port: 5432,
-    username: 'student',
+    username: 'postgres',
     password: process.env.DB_PASS,
     database: 'typetwo',
   },
