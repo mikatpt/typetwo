@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "(cd backend && go run .) & (next dev)",
     "build": "next build",
-    "start": "next start",
+    "start": "next start & (cd backend && go run .)",
     "typescript": "next",
     "test": "jest"
   },

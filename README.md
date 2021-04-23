@@ -40,6 +40,7 @@ Typing speed is a crucial bottleneck in productivity, especially if you work pri
 
 * npm
 * postgres
+* go
 
 ### Usage
 
