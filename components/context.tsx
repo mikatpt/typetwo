@@ -7,16 +7,32 @@ import { getInfo } from '../utils/APILogic';
 export type CharacterStore = {[pair: string]: {time: number; total:number; errors: number;}};
 
 export type MetricsType = {
-  doubles?: CharacterStore;
-  singles?: CharacterStore;
-  fifths?: number[];
-  fastestwpm?: number;
-  lastaccuracy?: number;
-  lasterrors?: number;
-  lastwpm?: number;
-  totalchars?: number;
-  totaltime?: number;
+  totalchars: number;
+  fastestwpm: number;
+  lastwpm: number;
+  lastaccuracy: number;
+  totaltime: number;
+  lasterrors: number;
+  lastfifths: number[];
+  singles: CharacterStore;
+  doubles: CharacterStore;
+  errors?: {[chars: string]: { [key: string]: string;}};
+  data?: Array<[string, number]>;
+  words?: string;
 }
+export const initialMetrics: MetricsType = {
+  totalchars: 0,
+  fastestwpm: 0,
+  lastwpm: 0,
+  lastaccuracy: 0,
+  lasterrors: 0,
+  totaltime: 0,
+  lastfifths: [],
+  singles: {},
+  doubles: {},
+  errors: {},
+  data: [],
+};
 
 export type MetricsContextType = {
   metrics: MetricsType;
@@ -26,7 +42,7 @@ export type MetricsContextType = {
 export const Metrics = createContext<MetricsContextType | null>(null);
 
 export const MetricsContextProvider = ({ children }: { children: ReactNode }) => {
-  const [metrics, setMetrics] = useState({});
+  const [metrics, setMetrics] = useState(initialMetrics);
 
   useEffect(() => {
     getSession().then((session) => {

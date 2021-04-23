@@ -42,50 +42,6 @@ describe('calculateWPM function', () => {
   });
 });
 
-describe('formatStats function', () => {
-  const err = { current: 'h', prev: 'Th', next: 'e ', word: 'The' };
-
-  const stats = {
-    lastwpm: 132,
-    lasterrors: 1,
-    lastaccuracy: 97.73,
-    lastfifths: [1000, 1000, 1000, 1000, 0],
-    errors: { a: err },
-    totaltime: 1000,
-    words: 'The quick brown fox jumped over the lazy dog',
-    data: [['', 5]],
-  } as Logic.Stats;
-
-  test('Should properly format fresh stats from Typer component', () => {
-    const formatted = Logic.formatStats(stats);
-
-    expect(formatted[0]).toBe(132);
-    expect(formatted[1]).toBe(1);
-    expect(formatted[2]).toBe(97.73);
-    expect(formatted[3]).toBe(stats.lastfifths);
-    expect(formatted[4]).toBe(stats.words);
-    expect(formatted[5]).toBe(stats.data);
-  });
-
-  test('Should properly format stats from database', () => {
-    const fromDatabase = { lastwpm: 132, lasterrors: 1, lastaccuracy: 97.73 } as Logic.Stats;
-    const formatted = Logic.formatStats(fromDatabase);
-
-    expect(formatted[0]).toBe(132);
-    expect(formatted[1]).toBe(1);
-    expect(formatted[2]).toEqual(97.73);
-    expect(formatted[3]).toBeFalsy();
-  });
-
-  test('Given empty data from Typer OR database, should return empty stats', () => {
-    const formatted = Logic.formatStats({} as Logic.Stats);
-    const fromDatabase = Logic.formatStats({} as Logic.Stats);
-    const expected = [0, 0, 0, 0];
-    expect(formatted).toEqual(expected);
-    expect(fromDatabase).toEqual(expected);
-  });
-});
-
 describe('formatLetters function', () => {
   const data: [string, number][] = [['ah', 2000], ['ha', 3000], ['a', 1000], ['b ', 4000]];
   const err = { current: 'o', prev: 'fo', next: 'x ', word: 'fox' };

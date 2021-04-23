@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { NextApiRequest } from 'next';
 import { getSession, Session } from 'next-auth/client';
 
-import { Metrics, MetricsContextType } from '../components/context';
+import { Metrics, MetricsContextType, initialMetrics } from '../components/context';
 import { deleteInfo } from '../utils/APILogic';
 
 import LifeTimeStats from '../components/Statistics/LifeTimeStats';
@@ -24,10 +24,10 @@ export default function Statistics({ session }: { session: Session }) {
 
   const removeInfo = async () => {
     await deleteInfo(session);
-    setMetrics({});
+    setMetrics(initialMetrics);
   };
 
-  if (!session || !Object.keys(metrics).length) {
+  if (!session || !metrics.totalchars) {
     return (
       <div className="container">
         <Head><title>Statistics</title></Head>

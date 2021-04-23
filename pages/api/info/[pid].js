@@ -1,5 +1,5 @@
 import { get, post, update, del } from './routes';
-import { formatLetters, formatStats, updateData } from '../../../utils/Logic';
+import { formatLetters, updateData } from '../../../utils/Logic';
 
 export default async (req, res) => {
   const { query: { pid } } = req;

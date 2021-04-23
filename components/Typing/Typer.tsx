@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect, MutableRefObject } from 'react';
+import { useState, useRef, useEffect, useContext, MutableRefObject } from 'react';
 
-import { Timer, State, typingLogic, calculateWPM } from '../../utils/Logic';
+import { Timer, State, typingLogic, calculateWPM, formatLetters } from '../../utils/Logic';
 import { useKeyPress, modifyEscEnter, modifyBack } from '../../utils/KeyboardLogic';
+import { Metrics, MetricsContextType } from '../context';
 
 import CharacterList from './CharacterList';
 
@@ -24,6 +25,8 @@ interface Props {
 
 export default function Typer({ words, getWords, prefs, sendData }: Props) {
   const [state, setState] = useState(initialState);
+  const { metrics } = useContext(Metrics) as MetricsContextType;
+
   const Time = useRef(new Timer());
   const pref: MutableRefObject<number> = useRef(0);
 
@@ -38,17 +41,23 @@ export default function Typer({ words, getWords, prefs, sendData }: Props) {
       const totaltime = Time.current.end('wpm');
       const timeout = 60000 / (20 / (words.length / 5));
       const lasterrors = Object.keys(state.errors).length;
+      const lastwpm = calculateWPM(words.length, totaltime);
+      const [singles, doubles] = formatLetters(state.data, state.errors);
 
       if (totaltime < timeout) {
         sendData({
-          words,
-          totaltime,
-          lasterrors,
+          totalchars: words.length + metrics.totalchars,
+          fastestwpm: Math.max(metrics.fastestwpm, lastwpm),
+          totaltime: totaltime + metrics.totaltime,
           errors: state.errors,
           data: state.data,
           lastaccuracy: +((100 * (words.length - lasterrors)) / words.length).toFixed(2),
-          lastwpm: calculateWPM(words.length, totaltime),
           lastfifths: [...state.fifths, Time.current.end('fifth')],
+          lastwpm,
+          lasterrors,
+          words,
+          singles,
+          doubles,
         });
       } else reset();
     }

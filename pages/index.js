@@ -5,7 +5,7 @@ import { getSession } from 'next-auth/client';
 
 import { Metrics } from '../components/context';
 import { getInfo, sendInfo, getSettings, sendSettings } from '../utils/APILogic';
-import { formatStats, generateWords } from '../utils/Logic';
+import { generateWords } from '../utils/Logic';
 
 import RoundMetrics from '../components/RoundMetrics';
 import Instructions from '../components/Instructions';
@@ -21,39 +21,30 @@ export default function TypeTwo({ session }) {
   const [words, setWords] = useState('');
   const [prefs, setPrefs] = useState({ wordset: 0 });
   const { metrics, setMetrics } = useContext(Metrics);
-  const [stats, setStats] = useState(formatStats(metrics)); // maybe the line 38 code covers this?
+
+  const getWords = (wordset = 0) => setWords(generateWords(wordset));
 
   useEffect(() => {
     if (session) {
       getSettings(session).then((res) => {
         if (res.data.length) {
           setPrefs(res.data[0]);
-          setWords(generateWords(res.data[0].wordset));
+          getWords(res.data[0].wordset);
         }
       });
-    } else setWords(generateWords(0));
+    } else getWords(0);
   }, []);
-
-  useEffect(() => {
-    if (Object.keys(metrics).length && !stats[3]) setStats(formatStats(metrics));
-  }, [metrics]);
-
-  const getWords = (wordset = 0) => setWords(generateWords(wordset));
 
   const updateWords = (option) => {
     const update = { ...prefs, wordset: option };
     if (session) sendSettings(session, update);
     setPrefs(update);
-    setWords(generateWords(option));
+    getWords(option);
   };
 
   const sendData = (data) => {
-    setStats(formatStats(data));
-    if (session) {
-      sendInfo(session, [data, metrics])
-        .then(() => getInfo(session))
-        .then((res) => setMetrics(res.data));
-    }
+    setMetrics(data);
+    if (session) sendInfo(session, metrics);
   };
 
   return (
@@ -63,10 +54,10 @@ export default function TypeTwo({ session }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="main">
-        <RoundMetrics stats={stats} wordset={prefs.wordset} updateWords={updateWords} />
+        <RoundMetrics metrics={metrics} wordset={prefs.wordset} updateWords={updateWords} />
         <Typer words={words} getWords={getWords} prefs={prefs} sendData={sendData} />
         <Instructions />
-        <RoundAnalysis stats={stats} />
+        {(metrics.words && metrics.data) && <RoundAnalysis metrics={metrics} />}
       </main>
     </div>
   );

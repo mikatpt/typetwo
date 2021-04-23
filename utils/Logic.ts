@@ -91,34 +91,11 @@ type CalcWPM = (chars: number, time: number) => number;
  */
 export const calculateWPM: CalcWPM = (chars, time) => Number(((12000 * chars) / time).toFixed(2));
 
-export interface Stats {
-  lastwpm: number;
-  lasterrors: number;
-  lastaccuracy: number;
-  totaltime: number;
-  errors: {[chars: string]: { [key: string]: string; }};
-  words?: string;
-  lastfifths: number[];
-  data?: Array<[string, number]>
-}
-
-/**
- * Given raw statistics, formats them for display. Returns 0's for error handling.
- * @param data
- */
-export const formatStats = (data: Stats) => {
-  const { lastwpm, lasterrors, lastaccuracy, words, lastfifths } = data;
-
-  if (!Object.keys(data).length) return [0, 0, 0, 0];
-  if (words) return [lastwpm, lasterrors, lastaccuracy, lastfifths, words, data.data];
-  return [lastwpm, lasterrors, lastaccuracy, 0];
-};
-
 interface FormattedData {
   [chars: string]: { [key: string]: number; }
 }
 
-export const formatLetters = (data: [string, number][], errorList: any) => {
+export const formatLetters = (data: [string, number][] = [], errorList: any = {}) => {
   const singles: FormattedData = {};
   const doubles: FormattedData = {};
 
@@ -137,7 +114,6 @@ export const formatLetters = (data: [string, number][], errorList: any) => {
     if (prev.length === 2) addToData(doubles, prev, 0, 1);
   });
 
-  // data = array of tuples, ['pa', 2000]
   data.forEach((tuple) => {
     const pair = tuple[0].replace(/\s/, '');
     const time = tuple[1];
