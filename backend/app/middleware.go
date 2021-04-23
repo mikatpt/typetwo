@@ -16,18 +16,43 @@ func GetInfo(email string) {
 func (a *App) GetFromDatabase(w http.ResponseWriter, r *http.Request) {
 	email := r.URL.Query()["email"][0]
 	token := r.URL.Query()["token"][0] // use token to validate requests.
-	_ = token
 
-	w.Header().Set("Content-Type", "application/json")
+	if !database.Validate(a.DB, token, email) {
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(make(map[string]string))
+		return
+	}
+
+	s := database.Stats{}
+
 	switch r.Method {
 	case "GET":
-		s := database.Stats{}
-		err := s.GetInfo(a.Database, email)
+		w.Header().Set("Content-Type", "application/json")
 
-		HandleError(w, err, http.StatusBadRequest, "Something went wrong in GETting info!")
+		err := s.GetInfo(a.DB, email)
+
+		if err != nil {
+			HandleError(w, err, http.StatusInternalServerError, "Something went wrong in getting info!")
+			return
+		}
 
 		w.WriteHeader(200)
-		json.NewEncoder(w).Encode(s)
+		json.NewEncoder(w).Encode(&s)
+
+	case "POST":
+
+		json.NewDecoder(r.Body).Decode(&s)
+
+		err := s.InsertInfo(a.DB, email)
+
+		if err != nil {
+			HandleError(w, err, http.StatusInternalServerError, "Something went wrong in inserting info!")
+			return
+		}
+
+		w.Header().Set("Content-Type", "text/plain")
+		w.WriteHeader(200)
+		w.Write([]byte("Successfully updated information."))
 	}
 }
 

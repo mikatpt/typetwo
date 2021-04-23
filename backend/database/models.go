@@ -4,21 +4,24 @@ import (
 	"database/sql"
 	"database/sql/driver"
 	"encoding/json"
-	"math"
 
 	"github.com/lib/pq"
 )
 
 type Stats struct {
-	Totalchars   float64 `json:"totalchars"`
-	Fastestwpm   float64 `json:"fastestwpm"`
-	Lastwpm      float64 `json:"lastwpm"`
-	Lastaccuracy float64 `json:"lastaccuracy"`
-	Totaltime    int     `json:"totaltime"`
-	Lasterrors   int     `json:"lasterrors"`
-	Fifths       []int64 `json:"fifths"`
-	Singles      Metrics `json:"singles"`
-	Doubles      Metrics `json:"doubles"`
+	Totalchars   float32         `json:"totalchars"`
+	Fastestwpm   float32         `json:"fastestwpm"`
+	Lastwpm      float32         `json:"lastwpm"`
+	Lastaccuracy float32         `json:"lastaccuracy"`
+	Totaltime    int             `json:"totaltime"`
+	Lasterrors   int             `json:"lasterrors"`
+	LastFifths   []int64         `json:"lastfifths"`
+	Singles      json.RawMessage `json:"singles"`
+	Doubles      json.RawMessage `json:"doubles"`
+	Errors       json.RawMessage `json:"errors"`
+	Data         json.RawMessage `json:"data"`
+	Words        string          `json:"words"`
+	ID           string          `json:"id"`
 }
 
 type Metrics map[string]interface{}
@@ -37,7 +40,6 @@ func (m *Metrics) Scan(value interface{}) error {
 }
 
 func (s *Stats) GetInfo(db *sql.DB, email string) error {
-
 	query := `SELECT m.totalchars, m.totaltime, m.fastestwpm, m.lastwpm, m.lasterrors,
 	m.lastaccuracy, m.fifths, m.singles, m.doubles
 	FROM metrics AS m
@@ -46,18 +48,50 @@ func (s *Stats) GetInfo(db *sql.DB, email string) error {
 	WHERE users.id = (SELECT id FROM users WHERE email = $1);
 	`
 
-	err := db.QueryRow(query, email).Scan(&s.Totalchars, &s.Totaltime, &s.Fastestwpm, &s.Lastwpm, &s.Lasterrors, &s.Lastaccuracy, pq.Array(&s.Fifths), &s.Singles, &s.Doubles)
-
-	s.Lastaccuracy = math.Round(s.Lastaccuracy*100) / 100
+	err := db.QueryRow(query, email).Scan(&s.Totalchars, &s.Totaltime, &s.Fastestwpm, &s.Lastwpm, &s.Lasterrors, &s.Lastaccuracy, pq.Array(&s.LastFifths), &s.Singles, &s.Doubles)
 
 	// t, ok := s.Singles["h"].(map[string]interface{})
 	// if !ok {
 	// 	fmt.Println("Unexpected type for singles :(")
 	// }
 
-	// tt := t["time"].(float64)
+	return err
+}
 
-	// fmt.Printf("%v,%T,%v", tt, tt, t["errors"])
+func (s *Stats) InsertInfo(db *sql.DB, email string) error {
+	query := `INSERT INTO metrics
+	(user_id, totalchars, totaltime, fastestWPM, lastWPM, lastErrors, lastAccuracy, fifths, singles, doubles)
+	VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+	ON CONFLICT (user_id)
+	DO UPDATE
+	SET totalchars = excluded.totalchars,
+	totaltime = excluded.totaltime,
+	fastestWPM = excluded.fastestWPM,
+	lastWPM = excluded.lastWPM,
+	lastErrors = excluded.lastErrors,
+	lastAccuracy = excluded.lastAccuracy,
+	fifths = excluded.fifths,
+	singles = excluded.singles,
+	doubles = excluded.doubles
+	RETURNING lastWPM;`
+
+	err := db.QueryRow(query, 5, s.Totalchars, s.Totaltime, s.Fastestwpm, s.Lastwpm, s.Lasterrors, s.Lastaccuracy, pq.Array(s.LastFifths), s.Singles, s.Doubles).Scan(&s.Lastwpm)
 
 	return err
+}
+
+func Validate(db *sql.DB, token string, email string) bool {
+	query := `
+	SELECT email
+	FROM users
+	WHERE id = (SELECT user_id FROM sessions WHERE access_token = $1);`
+	var expectedEmail string
+
+	err := db.QueryRow(query, token).Scan(&expectedEmail)
+
+	if err != nil || expectedEmail != email {
+		return false
+	}
+
+	return true
 }

@@ -10,13 +10,13 @@ import (
 )
 
 type App struct {
-	Router   *mux.Router
-	Database *sql.DB
+	Router *mux.Router
+	DB     *sql.DB
 }
 
 func (a *App) Initialize(user, password, dbname string) {
 
-	a.Database = database.Initialize(user, password, dbname)
+	a.DB = database.Initialize(user, password, dbname)
 	a.Router = mux.NewRouter()
 
 	a.initRoutes()
@@ -44,8 +44,7 @@ func CheckErrors(err error) {
 }
 
 func HandleError(w http.ResponseWriter, err error, status int, message string) {
-	if err != nil {
-		w.WriteHeader(status)
-		w.Write([]byte(message))
-	}
+	w.Header().Set("Content-Type", "text/plain")
+	w.WriteHeader(status)
+	w.Write([]byte(message))
 }
