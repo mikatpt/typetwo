@@ -7,7 +7,12 @@ export const getInfo = (session) => axios.get(`${process.env.NEXT_PUBLIC_URL}/ap
   },
 });
 
-export const sendInfo = (session, data) => axios.post(`${process.env.NEXT_PUBLIC_URL}/api/info/${session.user.email}`, data);
+export const sendInfo = (session, data) => axios.post(`${process.env.NEXT_PUBLIC_URL}/api/info`, data, {
+  params: {
+    email: session.user.email,
+    token: session.accessToken,
+  },
+});
 
 export const deleteInfo = (session) => axios.delete(`${process.env.NEXT_PUBLIC_URL}/api/info/${session.user.email}`);
 
